@@ -15,16 +15,11 @@ export class SecurityComponent implements OnInit {
   };
 
   tokenValid: boolean = false;
-
-
+  
   constructor(private securityService: SecurityServiceService) { }
 
   ngOnInit(): void {
 
-  }
-
-  loginAndValidate() {
-    this.loginAndCreateToken(this.authRequest);
   }
 
   /* Generate Token */

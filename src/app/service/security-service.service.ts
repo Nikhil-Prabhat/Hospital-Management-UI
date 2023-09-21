@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthRequest } from '../modals/security/AuthRequest.modal';
 import { AuthResponse } from '../modals/security/AuthResponse.modal';
+import { TokenValidationResponse } from '../modals/security/TokenValidationResponse.modal';
 
 @Injectable({
   providedIn: 'root'
@@ -22,10 +23,10 @@ export class SecurityServiceService {
   }
 
   /* Validate the user with the token */
-  public validate(token: String) {
+  public validate(token: string) {
     let tokenStr = this.BEARER_PREFIX + token;
     const headers = new HttpHeaders().set(this.AUTHORIZATION, tokenStr);
-    return this.httpClient.get(this.TOKEN_VALIDATE, { headers, responseType: 'text' as 'json' });
+    return this.httpClient.get<TokenValidationResponse>(this.TOKEN_VALIDATE, { headers });
   }
 
 }

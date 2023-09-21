@@ -14,13 +14,17 @@ export class SecurityComponent implements OnInit {
     "password": "Honey@123"
   };
 
-  token!: string;
+  tokenValid: boolean = false;
+
 
   constructor(private securityService: SecurityServiceService) { }
 
   ngOnInit(): void {
-    this.loginAndCreateToken(this.authRequest);
 
+  }
+
+  loginAndValidate() {
+    this.loginAndCreateToken(this.authRequest);
   }
 
   /* Generate Token */
@@ -28,9 +32,19 @@ export class SecurityComponent implements OnInit {
     this.securityService.loginAndCreateToken(authRequest)
       .subscribe(
         tokenWithUser => {
-          console.log(JSON.stringify(tokenWithUser))
+          this.validate(tokenWithUser.token);
         }
       );
   }
+
+  /* Validate Token */
+  public validate(token: string) {
+    this.securityService.validate(token)
+      .subscribe(
+        tokenValidationResponse => this.tokenValid = tokenValidationResponse.isValid
+      );
+  }
+
+
 
 }

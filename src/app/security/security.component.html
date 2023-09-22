@@ -18,21 +18,28 @@
 
                             <form class="mb-3 mt-md-4" (ngSubmit)="loginAndCreateToken()" #loginForm="ngForm">
 
-                                <h2 class="fw-bold mb-2 text-uppercase ">Hospital Management</h2>
+                                <h2 class="fw-bold mb-2 text-uppercase ">HM - Login</h2>
                                 <p class=" mb-5">Please enter your username and password!</p>
 
                                 <div class="mb-3 form-group">
                                     <label for="username" class="form-label ">User Name</label>
                                     <input type="username" class="form-control" id="username" name="username"
-                                        placeholder="Plz enter your username" ngModel />
+                                        placeholder="Plz enter your username" required ngModel />
+                                    <span class="help-text errorFont"
+                                        *ngIf="!loginForm.controls.username.valid && loginForm.controls.username.touched">Please
+                                        enter username</span>
                                 </div>
                                 <div class="mb-3 form-group">
                                     <label for="password" class="form-label">Password</label>
                                     <input type="password" class="form-control" id="password" name="password"
-                                        placeholder="Please enter your password" ngModel />
+                                        placeholder="Please enter your password" required ngModel />
+                                    <span class="help-text errorFont"
+                                        *ngIf="!loginForm.controls.password.valid && loginForm.controls.password.touched">Please
+                                        enter password</span>
                                 </div>
                                 <div class="d-grid">
-                                    <button class="btn btn-outline-dark" type="submit">Login</button>
+                                    <button class="btn btn-outline-dark" type="submit"
+                                        [disabled]="!loginForm.valid">Login</button>
                                 </div>
                             </form>
                             <div>

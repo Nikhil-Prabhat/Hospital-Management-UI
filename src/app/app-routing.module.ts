@@ -3,6 +3,8 @@ import { RouterModule, Routes } from "@angular/router";
 import { SecurityComponent } from "./security/security.component";
 import { SignupComponent } from "./signup/signup.component";
 import { HospitalDashboardComponent } from "./hospital-dashboard/hospital-dashboard.component";
+import { DoctorComponent } from "./doctor/doctor.component";
+import { SavedoctorComponent } from "./doctor/savedoctor/savedoctor.component";
 
 const routes: Routes = [
     {
@@ -12,12 +14,20 @@ const routes: Routes = [
         path: 'signup', component: SignupComponent
     },
     {
-        path: 'dashboard/:username', component: HospitalDashboardComponent
+        path: 'dashboard/:token/:username', component: HospitalDashboardComponent
+    },
+    {
+        path: 'doctors/:token', component: DoctorComponent
+
+    },
+    {
+        path: 'savedoctor/:token', component: SavedoctorComponent
+
     },
     {
         path: '', redirectTo: 'login', pathMatch: 'full'
 
-    },
+    }
 ];
 
 @NgModule({

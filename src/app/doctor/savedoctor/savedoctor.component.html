@@ -1,0 +1,66 @@
+<div class="vh-100 d-flex justify-content-center align-items-center">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <div class="card bg-white">
+                    <div class="card-body p-5">
+
+                        <form class="mb-3 mt-md-4" (ngSubmit)="saveDoctor()" #saveDoctorForm="ngForm">
+
+                            <h2 class="fw-bold mb-2 text-uppercase ">Save Doctor</h2>
+                            <p class=" mb-5">Please enter doctor details</p>
+
+                            <div class="mb-3 form-group">
+                                <label for="doctorname" class="form-label ">Doctor Name</label>
+                                <input type="text" class="form-control" id="doctorname" name="doctorname"
+                                    placeholder="Plz enter doctor name" required ngModel />
+                                <span class="help-text errorFont"
+                                    *ngIf="!saveDoctorForm.controls.doctorname.valid && saveDoctorForm.controls.doctorname.touched">Please
+                                    enter doctor name</span>
+                            </div>
+                            <div class="mb-3 form-group">
+                                <label for="specialisation" class="form-label">Specialisation</label>
+                                <input type="text" class="form-control" id="specialisation" name="specialisation"
+                                    placeholder="Please enter specialisation" required ngModel />
+                                <span class="help-text errorFont"
+                                    *ngIf="!saveDoctorForm.controls.specialisation.valid && saveDoctorForm.controls.specialisation.touched">Please
+                                    enter specialisation</span>
+                            </div>
+                            <div class="mb-3 form-group">
+                                <label for="mobileNo" class="form-label">Mobile No</label>
+                                <input type="number" class="form-control" id="mobileNo" name="mobileNo"
+                                    placeholder="Please enter mobileNumber of 10 digits" required ngModel />
+                                <span class="help-text errorFont"
+                                    *ngIf="!saveDoctorForm.controls.mobileNo.valid && saveDoctorForm.controls.mobileNo.touched">Please
+                                    enter mobileNo of 10 digits</span>
+                            </div>
+                            <div class="mb-3 form-group">
+                                <label for="address" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="address" name="address"
+                                    placeholder="Please enter address" required ngModel />
+                                <span class="help-text errorFont"
+                                    *ngIf="!saveDoctorForm.controls.address.valid && saveDoctorForm.controls.address.touched">Please
+                                    enter address</span>
+                            </div>
+                            <div class="d-grid">
+                                <button class="btn btn-outline-dark" type="submit"
+                                    [disabled]="!saveDoctorForm.valid">Save Doctor</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4 name">
+            <!-- Setting up message -->
+            <div class="alert alert-success " *ngIf="isSubmitted && isSaveDoctorSuccess">
+                <strong>{{saveDoctorMessage}}</strong>
+            </div>
+
+            <div class="alert alert-danger " *ngIf="isSubmitted && !isSaveDoctorSuccess">
+                <strong>{{saveDoctorMessage}}</strong>
+            </div>
+        </div>
+    </div>
+</div>

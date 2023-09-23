@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-hospital-dashboard',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HospitalDashboardComponent implements OnInit {
 
-  constructor() { }
+  currentUser !: string;
+  token !: string;
+
+  constructor(private activatedRoute : ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.currentUser = this.activatedRoute.snapshot.params['username'];
+    this.token = this.activatedRoute.snapshot.params['token'];
+
   }
 
 }

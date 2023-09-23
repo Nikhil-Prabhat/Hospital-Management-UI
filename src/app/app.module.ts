@@ -9,13 +9,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { SecurityServiceService } from './service/security-service.service';
 import { SignupComponent } from './signup/signup.component';
 import { HospitalDashboardComponent } from './hospital-dashboard/hospital-dashboard.component';
+import { DoctorComponent } from './doctor/doctor.component';
+import { HospitalService } from './service/hospital.service';
+import { SavedoctorComponent } from './doctor/savedoctor/savedoctor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SecurityComponent,
     SignupComponent,
-    HospitalDashboardComponent
+    HospitalDashboardComponent,
+    DoctorComponent,
+    SavedoctorComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +29,7 @@ import { HospitalDashboardComponent } from './hospital-dashboard/hospital-dashbo
     ReactiveFormsModule,
     AppRoutingModule
   ],
-  providers: [SecurityServiceService],
+  providers: [SecurityServiceService, HospitalService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

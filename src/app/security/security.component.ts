@@ -17,9 +17,9 @@ export class SecurityComponent implements OnInit {
   @ViewChild('loginForm') loginForm!: NgForm;
 
   tokenValid: boolean = false;
-  public loginMessage!: string;
-  public isSubmitted !: boolean;
-  public isLoginSuccess !: boolean;
+  loginMessage!: string;
+  isSubmitted !: boolean;
+  isLoginSuccess !: boolean;
 
   constructor(private securityService: SecurityServiceService, private router: Router) { }
 
@@ -45,8 +45,9 @@ export class SecurityComponent implements OnInit {
           this.validate(tokenWithUser.token);
           this.isLoginSuccess = true;
           this.loginMessage = this.LOGIN_SUCCESSFUL_MSG + tokenWithUser.username + " !";
-          this.routeToSignupPage(tokenWithUser.username);
+          this.routeToDashboardPage(tokenWithUser.username);
         }, (error: any) => {
+          // In case of error response
           this.isLoginSuccess = false;
           this.loginMessage = this.LOGIN_UNSUCCESSFUL_MSG;
         }
@@ -63,11 +64,10 @@ export class SecurityComponent implements OnInit {
       );
   }
 
-  /* Route to Signup Page */
-  public routeToSignupPage(username: string) {
+  /* Route to Dashboard Page */
+  public routeToDashboardPage(username : string) {
     setTimeout(() => {
-      // For now, it is randomly navigated to signup page
-      this.router.navigate(['/signup', username])
+      this.router.navigate(['/dashboard',username])
     }, 2000);
   }
 

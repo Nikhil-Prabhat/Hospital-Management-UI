@@ -8,12 +8,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { SecurityServiceService } from './service/security-service.service';
 import { SignupComponent } from './signup/signup.component';
+import { HospitalDashboardComponent } from './hospital-dashboard/hospital-dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SecurityComponent,
-    SignupComponent
+    SignupComponent,
+    HospitalDashboardComponent
   ],
   imports: [
     BrowserModule,

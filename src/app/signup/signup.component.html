@@ -37,6 +37,19 @@
                                         *ngIf="!signupForm.controls.password.valid && signupForm.controls.password.touched">Please
                                         enter password</span>
                                 </div>
+                                <div class="mb-3 form-group">
+                                    <label for="role" class="form-label">Role</label>
+                                    <select class="form-control" id="role" name="role" required ngModel>
+                                        <option value="" disabled selected>Please choose correct role</option>
+                                        <option value="ROLE_ADMIN">ROLE_ADMIN</option>
+                                        <option value="ROLE_DOCTOR">ROLE_DOCTOR</option>
+                                        <option value="ROLE_USER">ROLE_USER</option>
+                                    </select>
+                                    <span class="help-text errorFont"
+                                        *ngIf="!signupForm.controls.role.valid && signupForm.controls.role.touched">Please
+                                        select role</span>
+
+                                </div>
                                 <div class="d-grid">
                                     <button class="btn btn-outline-dark" type="submit"
                                         [disabled]="!signupForm.valid">Signup</button>
@@ -44,6 +57,17 @@
                             </form>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4 name">
+                <!-- Setting up message -->
+                <div class="alert alert-success " *ngIf="isSubmitted && isSignupSuccess">
+                    <strong>{{signupMessage}}</strong>
+                </div>
+
+                <div class="alert alert-danger " *ngIf="isSubmitted && !isSignupSuccess">
+                    <strong>{{signupMessage}}</strong>
                 </div>
             </div>
         </div>

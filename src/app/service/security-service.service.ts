@@ -21,7 +21,7 @@ export class SecurityServiceService {
 
   /* Save the user in the database */
   public saveUser(hospitalUser : HospitalUser) {
-      return this.httpClient.post(this.SAVE_USER, hospitalUser);
+      return this.httpClient.post(this.SAVE_USER, hospitalUser, {responseType : 'text'});
   }
 
   /* Generate token for the user and login */

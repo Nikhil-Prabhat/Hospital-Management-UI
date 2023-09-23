@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Doctor } from 'src/app/modals/hospital/Doctor.modal';
 import { HospitalService } from 'src/app/service/hospital.service';
 
@@ -20,7 +20,7 @@ export class SavedoctorComponent implements OnInit {
   isSaveDoctorSuccess !: boolean;
   token !: string;
 
-  constructor(private hospitalService: HospitalService, private activatedRoute: ActivatedRoute) { }
+  constructor(private hospitalService: HospitalService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.token = this.activatedRoute.snapshot.params['token'];
@@ -47,12 +47,20 @@ export class SavedoctorComponent implements OnInit {
         this.saveDoctorMessage = JSON.stringify(response);
       }, (error: any) => {
         // In case of error response
+        console.log(error.error.mobileNo);
         this.isSaveDoctorSuccess = false;
         this.saveDoctorMessage = this.SAVE_DOCTOR_FAILURE + error.error;
       });
 
+    this.routeToDoctorPage(this.token);
     this.saveDoctorForm.reset();
+  }
 
+  /* Route to Doctor's Page */
+  public routeToDoctorPage(token: string) {
+    setTimeout(() => {
+      this.router.navigate(['/doctors', token])
+    }, 2000);
   }
 
 }

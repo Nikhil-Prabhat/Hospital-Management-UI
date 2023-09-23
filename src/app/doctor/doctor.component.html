@@ -23,4 +23,31 @@
 
 <!-- Button Groups -->
 <button type="button" class="btn btn-warning" routerLink="/savedoctor/{{token}}">Save Doctor</button>
-        
+
+<!-- Get Doctor's List From Database -->
+<div class="container">
+    <h1 class="display-6 text-center" *ngIf="doctorsList.length > 0">Doctor's List</h1>
+    <table class="table table-hover">
+        <thead *ngIf="doctorsList.length > 0">
+            <tr>
+                <th>Name</th>
+                <th>Specialisation</th>
+                <th>Mobile No</th>
+                <th>Address</th>
+                <th>Operations</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let doctor of doctorsList;">
+                <td>{{doctor.name}}</td>
+                <td>{{doctor.specialisation}}</td>
+                <td>{{doctor.mobileNo}}</td>
+                <td>{{doctor.address}}</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="alert alert-danger text-center container-fluid" *ngIf="errorMessage">
+{{errorMessage}}
+</div>

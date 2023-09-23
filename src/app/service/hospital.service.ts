@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Doctor } from '../modals/hospital/Doctor.modal';
+import { DoctorResponse } from '../modals/hospital/DoctorResponse.modal';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class HospitalService {
 
   /* Doctor's Endpoint urls*/
   SAVE_DOCTOR = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/savedoctors";
+  GET_ALL_DOCTORS = this.HOSPITAL_SERVICE_ENDPOINT+"hospitalapp/getalldoctors";
   BEARER_PREFIX = "Bearer ";
   AUTHORIZATION = "Authorization";
 
@@ -22,6 +24,12 @@ export class HospitalService {
   public saveDoctor(token: string, doctorDTO: Doctor) {
     const headers = this.getHeaders(token);
     return this.httpClient.post(this.SAVE_DOCTOR, doctorDTO, { headers , responseType : 'text' as 'json'});
+  }
+
+  /* Get All Doctors From the Database */
+  public getAllDoctors(token:string) {
+    const headers = this.getHeaders(token);
+    return this.httpClient.get<DoctorResponse[]>(this.GET_ALL_DOCTORS, {headers})
   }
 
   private getHeaders(token: string) {

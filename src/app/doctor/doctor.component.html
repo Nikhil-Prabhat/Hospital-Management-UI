@@ -26,28 +26,139 @@
 
 <!-- Get Doctor's List From Database -->
 <div class="container">
-    <h1 class="display-6 text-center" *ngIf="doctorsList.length > 0">Doctor's List</h1>
-    <table class="table table-hover">
-        <thead *ngIf="doctorsList.length > 0">
-            <tr>
-                <th>Name</th>
-                <th>Specialisation</th>
-                <th>Mobile No</th>
-                <th>Address</th>
-                <th>Operations</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let doctor of doctorsList;">
-                <td>{{doctor.name}}</td>
-                <td>{{doctor.specialisation}}</td>
-                <td>{{doctor.mobileNo}}</td>
-                <td>{{doctor.address}}</td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="row justify-content-center align-items-center">
+        <h1 class="display-6 text-center" *ngIf="doctorsList.length > 0">Doctor's List</h1>
+        <table class="table table-hover table-striped">
+            <thead *ngIf="doctorsList.length > 0">
+                <tr>
+                    <th>Name</th>
+                    <th>Specialisation</th>
+                    <th>Mobile No</th>
+                    <th>Address</th>
+                    <th>Operations</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let doctor of doctorsList;">
+                    <td>{{doctor.name}}</td>
+                    <td>{{doctor.specialisation}}</td>
+                    <td>{{doctor.mobileNo}}</td>
+                    <td>{{doctor.address}}</td>
+                    <td>
+                        <button type="button" class="btn btn-warning btn-sm"
+                            (click)="getAllPatientsForADoctor(doctor)">Patients</button>
+                        <button type="button" class="btn btn-dark btn-sm"
+                        (click)="getAllAppointmentsForADoctor(doctor)">Appointments</button>
+                        <button type="button" class="btn btn-info btn-sm"
+                            (click)="getAllTreatmentHistoriesForADoctor(doctor)">Treatment Histories</button>
+                        <button type="button" class="btn btn-secondary btn-sm">Update</button>
+                        <button type="button" class="btn btn-danger btn-sm">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Get All Patients For A Doctor -->
+    <div class="container-fluid" *ngIf="isGetAllPatientsForADoctor">
+        <div class="alert alert-danger text-center container-fluid" *ngIf="getAllPatientsForADoctorErrorMessage">
+            {{getAllPatientsForADoctorErrorMessage}}
+        </div>
+
+        <div class="row justify-content-center align-items-center">
+            <h1 class="display-6 text-center" *ngIf="patientListForADoctor.length > 0">Patients For Doctor :
+                {{currentDoctor}}</h1>
+            <table class="table table-hover table-striped">
+                <thead *ngIf="patientListForADoctor.length > 0">
+                    <tr>
+                        <th>Name</th>
+                        <th>MobileNo</th>
+                        <th>Address</th>
+                        <th>Brief Problem Description</th>
+                        <th>Treatment Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let patient of patientListForADoctor;">
+                        <td>{{patient.name}}</td>
+                        <td>{{patient.mobileNo}}</td>
+                        <td>{{patient.address}}</td>
+                        <td>{{patient.briefProblemDescription}}</td>
+                        <td>{{patient.treatmentStatus}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Get All Treatment Histories For A Doctor -->
+    <div class="container-fluid" *ngIf="isGetAllTreatmentHistoriesForADoctor">
+        <div class="alert alert-danger text-center container-fluid"
+            *ngIf="getAllTreatmentHistoriesForADoctorErrorMessage">
+            {{getAllTreatmentHistoriesForADoctorErrorMessage}}
+        </div>
+
+        <div class="row justify-content-center align-items-center">
+            <h1 class="display-6 text-center" *ngIf="treatmentHistoriesListForADoctor.length > 0">Treatment Histories
+                For Doctor :
+                {{currentDoctor}}</h1>
+            <table class="table table-hover table-striped">
+                <thead *ngIf="treatmentHistoriesListForADoctor.length > 0">
+                    <tr>
+                        <th>Patient Name</th>
+                        <th>Problem Description</th>
+                        <th>Treatment Status</th>
+                        <th>Symptoms</th>
+                        <th>Prescription</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let treatmentHistory of treatmentHistoriesListForADoctor;">
+                        <td>{{treatmentHistory.patient.name}}</td>
+                        <td>{{treatmentHistory.briefDescription}}</td>
+                        <td>{{treatmentHistory.patient.treatmentStatus}}</td>
+                        <td>{{treatmentHistory.symptoms}}</td>
+                        <td>{{treatmentHistory.treatment}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Get All Appointments For A Doctor -->
+    <div class="container-fluid" *ngIf="isGetAllAppointmentsForADoctor">
+        <div class="alert alert-danger text-center container-fluid"
+            *ngIf="getAllAppointmentsForADoctorErrorMessage">
+            {{getAllAppointmentsForADoctorErrorMessage}}
+        </div>
+
+        <div class="row justify-content-center align-items-center">
+            <h1 class="display-6 text-center" *ngIf="appointmentListForADoctor.length > 0"> Appointments
+                For Doctor :
+                {{currentDoctor}}</h1>
+            <table class="table table-hover table-striped">
+                <thead *ngIf="appointmentListForADoctor.length > 0">
+                    <tr>
+                        <th>Patient Name</th>
+                        <th>Patient Mobile No</th>
+                        <th>Doctor Assigned</th>
+                        <th>Appointment Date</th>
+                        <th>Appointment Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let appointment of appointmentListForADoctor;">
+                        <td>{{appointment.patientName}}</td>
+                        <td>{{appointment.patientMobileNo}}</td>
+                        <td>{{appointment.doctorAssignedName}}</td>
+                        <td>{{appointment.appointmentDate}}</td>
+                        <td>{{appointment.appointmentStatus}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-<div class="alert alert-danger text-center container-fluid" *ngIf="errorMessage">
-{{errorMessage}}
+<div class="alert alert-danger text-center container-fluid" *ngIf="getAllDoctorsErrorMessage">
+    {{getAllDoctorsErrorMessage}}
 </div>

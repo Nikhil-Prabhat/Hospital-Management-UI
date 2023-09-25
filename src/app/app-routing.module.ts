@@ -5,6 +5,7 @@ import { SignupComponent } from "./signup/signup.component";
 import { HospitalDashboardComponent } from "./hospital-dashboard/hospital-dashboard.component";
 import { DoctorComponent } from "./doctor/doctor.component";
 import { SavedoctorComponent } from "./doctor/savedoctor/savedoctor.component";
+import { PatientComponent } from "./patient/patient.component";
 
 const routes: Routes = [
     {
@@ -22,6 +23,10 @@ const routes: Routes = [
     },
     {
         path: 'savedoctor/:token', component: SavedoctorComponent
+
+    },
+    {
+        path: 'patients/:token', component: PatientComponent
 
     },
     {

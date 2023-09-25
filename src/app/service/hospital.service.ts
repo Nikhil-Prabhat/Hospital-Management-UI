@@ -21,6 +21,10 @@ export class HospitalService {
   GET_ALL_APPOINTMENTS_FOR_A_DOCTOR = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/getallappointmentsforadoctor/"
   UPDATE_DOCTOR = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/updatedoctor/";
   DELETE_DOCTOR = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/deletedoctor/";
+
+  /* Patient's Endpoint urls */
+  GET_ALL_PATIENTS = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/getallpatients";
+
   BEARER_PREFIX = "Bearer ";
   AUTHORIZATION = "Authorization";
 
@@ -64,9 +68,18 @@ export class HospitalService {
     return this.httpClient.put(this.UPDATE_DOCTOR + id, doctor, { headers, responseType: 'text' as 'json' });
   }
 
+  /* Delete Doctor */
   public deleteDoctor(token: string, id: string) {
     const headers = this.getHeaders(token);
     return this.httpClient.delete(this.DELETE_DOCTOR + id, { headers, responseType: 'text' as 'json' });
+  }
+
+  /* Patient's Endpoint */
+
+  /* Get All Patients */
+  public getAllPatients(token: string) {
+    const headers = this.getHeaders(token);
+    return this.httpClient.get<PatientResponse[]>(this.GET_ALL_PATIENTS, { headers });
   }
 
   private getHeaders(token: string) {

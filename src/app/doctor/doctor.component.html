@@ -11,7 +11,7 @@
                     <a class="nav-link" routerLink="/doctors/{{token}}">Doctors</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Patients</a>
+                    <a class="nav-link" routerLink="/patients/{{token}}">Patients</a>
                 </li>
             </ul>
         </div>
@@ -259,7 +259,7 @@
     <strong>There is no doctor in HM to display </strong>
 </div>
 
-<!-- In case there is any issue fetching docto's List -->
+<!-- In case there is any issue fetching doctor's List -->
 <div class="alert alert-danger text-center container-fluid" *ngIf="getAllDoctorsErrorMessage">
     <strong>{{getAllDoctorsErrorMessage}}</strong>
 </div>

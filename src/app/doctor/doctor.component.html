@@ -16,38 +16,250 @@
             </ul>
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="button" class="btn btn-outline-warning" routerLink="/savedoctor/{{token}}">Save
+                Doctor</button>
             <button type="button" class="btn btn-outline-danger" routerLink="">Log Out</button>
         </div>
     </div>
 </nav>
 
-<!-- Button Groups -->
-<button type="button" class="btn btn-warning" routerLink="/savedoctor/{{token}}">Save Doctor</button>
-
 <!-- Get Doctor's List From Database -->
 <div class="container">
-    <h1 class="display-6 text-center" *ngIf="doctorsList.length > 0">Doctor's List</h1>
-    <table class="table table-hover">
-        <thead *ngIf="doctorsList.length > 0">
-            <tr>
-                <th>Name</th>
-                <th>Specialisation</th>
-                <th>Mobile No</th>
-                <th>Address</th>
-                <th>Operations</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let doctor of doctorsList;">
-                <td>{{doctor.name}}</td>
-                <td>{{doctor.specialisation}}</td>
-                <td>{{doctor.mobileNo}}</td>
-                <td>{{doctor.address}}</td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="row justify-content-center align-items-center">
+        <h1 class="display-6 text-center" *ngIf="doctorsList.length > 0">Doctor's List</h1>
+        <table class="table table-hover table-striped">
+            <thead *ngIf="doctorsList.length > 0">
+                <tr>
+                    <th>Name</th>
+                    <th>Specialisation</th>
+                    <th>Mobile No</th>
+                    <th>Address</th>
+                    <th>Operations</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let doctor of doctorsList;">
+                    <td>{{doctor.name}}</td>
+                    <td>{{doctor.specialisation}}</td>
+                    <td>{{doctor.mobileNo}}</td>
+                    <td>{{doctor.address}}</td>
+                    <td>
+                        <button type="button" class="btn btn-warning btn-sm"
+                            (click)="getAllPatientsForADoctor(doctor)">Patients</button>
+                        <button type="button" class="btn btn-dark btn-sm"
+                            (click)="getAllAppointmentsForADoctor(doctor)">Appointments</button>
+                        <button type="button" class="btn btn-info btn-sm"
+                            (click)="getAllTreatmentHistoriesForADoctor(doctor)">Treatment Histories</button>
+                        <button type="button" class="btn btn-secondary btn-sm"
+                            (click)="updateDoctorWithId(doctor)">Update</button>
+                        <button type="button" class="btn btn-danger btn-sm"
+                            (click)="deleteDoctor(doctor)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Delete Doctor -->
+    <div class="text-center mt-4 name">
+        <!-- Setting up message -->
+        <div class="alert alert-success " *ngIf="isDeleteDoctorSuccess && deleteDoctorSuccessMessage.length > 0">
+            <strong>{{deleteDoctorSuccessMessage}}</strong>
+        </div>
+
+        <div class="alert alert-danger " *ngIf="!isDeleteDoctorSuccess && deleteDoctorErrorMessage.length > 0">
+            <strong>{{deleteDoctorErrorMessage}}</strong>
+        </div>
+    </div>
+
+    <!-- Get All Patients For A Doctor -->
+    <div class="container-fluid" *ngIf="isGetAllPatientsForADoctor">
+        <div class="alert alert-danger text-center container-fluid" *ngIf="getAllPatientsForADoctorErrorMessage">
+            {{getAllPatientsForADoctorErrorMessage}}
+        </div>
+
+        <div class="row justify-content-center align-items-center">
+            <h1 class="display-6 text-center" *ngIf="patientListForADoctor.length > 0">Patients For Doctor :
+                {{currentDoctor}}</h1>
+            <table class="table table-hover table-striped">
+                <thead *ngIf="patientListForADoctor.length > 0">
+                    <tr>
+                        <th>Name</th>
+                        <th>MobileNo</th>
+                        <th>Address</th>
+                        <th>Brief Problem Description</th>
+                        <th>Treatment Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let patient of patientListForADoctor;">
+                        <td>{{patient.name}}</td>
+                        <td>{{patient.mobileNo}}</td>
+                        <td>{{patient.address}}</td>
+                        <td>{{patient.briefProblemDescription}}</td>
+                        <td>{{patient.treatmentStatus}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- CASE : When no patients to display -->
+    <div class="alert alert-primary text-center" *ngIf="patientListForADoctor.length < 1 && isGetAllPatientsForADoctor">
+        <strong>There is no patient in HM for doc : {{currentDoctor}} </strong>
+    </div>
+
+    <!-- Get All Treatment Histories For A Doctor -->
+    <div class="container-fluid" *ngIf="isGetAllTreatmentHistoriesForADoctor">
+        <div class="alert alert-danger text-center container-fluid"
+            *ngIf="getAllTreatmentHistoriesForADoctorErrorMessage">
+            {{getAllTreatmentHistoriesForADoctorErrorMessage}}
+        </div>
+
+        <div class="row justify-content-center align-items-center">
+            <h1 class="display-6 text-center" *ngIf="treatmentHistoriesListForADoctor.length > 0">Treatment Histories
+                For Doctor :
+                {{currentDoctor}}</h1>
+            <table class="table table-hover table-striped">
+                <thead *ngIf="treatmentHistoriesListForADoctor.length > 0">
+                    <tr>
+                        <th>Patient Name</th>
+                        <th>Problem Description</th>
+                        <th>Treatment Status</th>
+                        <th>Symptoms</th>
+                        <th>Prescription</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let treatmentHistory of treatmentHistoriesListForADoctor;">
+                        <td>{{treatmentHistory.patient.name}}</td>
+                        <td>{{treatmentHistory.briefDescription}}</td>
+                        <td>{{treatmentHistory.patient.treatmentStatus}}</td>
+                        <td>{{treatmentHistory.symptoms}}</td>
+                        <td>{{treatmentHistory.treatment}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- CASE : When no patients to display -->
+    <div class="alert alert-primary text-center"
+        *ngIf="treatmentHistoriesListForADoctor.length < 1 && isGetAllTreatmentHistoriesForADoctor">
+        <strong>There is no treatment history in HM for doc : {{currentDoctor}} </strong>
+    </div>
+
+    <!-- Get All Appointments For A Doctor -->
+    <div class="container-fluid" *ngIf="isGetAllAppointmentsForADoctor">
+        <div class="alert alert-danger text-center container-fluid" *ngIf="getAllAppointmentsForADoctorErrorMessage">
+            {{getAllAppointmentsForADoctorErrorMessage}}
+        </div>
+
+        <div class="row justify-content-center align-items-center">
+            <h1 class="display-6 text-center" *ngIf="appointmentListForADoctor.length > 0"> Appointments
+                For Doctor :
+                {{currentDoctor}}</h1>
+            <table class="table table-hover table-striped">
+                <thead *ngIf="appointmentListForADoctor.length > 0">
+                    <tr>
+                        <th>Patient Name</th>
+                        <th>Patient Mobile No</th>
+                        <th>Doctor Assigned</th>
+                        <th>Appointment Date</th>
+                        <th>Appointment Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let appointment of appointmentListForADoctor;">
+                        <td>{{appointment.patientName}}</td>
+                        <td>{{appointment.patientMobileNo}}</td>
+                        <td>{{appointment.doctorAssignedName}}</td>
+                        <td>{{appointment.appointmentDate}}</td>
+                        <td>{{appointment.appointmentStatus}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- CASE : When no patients to display -->
+    <div class="alert alert-primary text-center"
+        *ngIf="appointmentListForADoctor.length < 1 && isGetAllAppointmentsForADoctor">
+        <strong>There is no appointment in HM for doc : {{currentDoctor}} </strong>
+    </div>
+
+    <!-- Update Doctor -->
+    <div class="container-fluid" *ngIf="isUpdateDoctor">
+        <h1 class="display-6 text-center">Update Doctor : {{currentDoctor}}</h1>
+        <form (ngSubmit)="updateDoctor()" #updateDoctorForm="ngForm">
+            <div class="row mb-3">
+                <label for="doctorName" class="col-sm-2 col-form-label bold">Name Of The Doctor</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="doctorName" name="doctorName"
+                        placeholder="Plz Enter Doctor's Name" required ngModel>
+                    <span class="help-text errorFont"
+                        *ngIf="!updateDoctorForm.controls.doctorName.valid && updateDoctorForm.controls.doctorName.touched">Please
+                        enter doctor name</span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="specialisation" class="col-sm-2 col-form-label bold">Specialisation </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="specialisation" name="specialisation"
+                        placeholder="Plz Enter Specialisation" required ngModel>
+                    <span class="help-text errorFont"
+                        *ngIf="!updateDoctorForm.controls.specialisation.valid && updateDoctorForm.controls.specialisation.touched">Please
+                        enter specialisation</span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="mobileNo" class="col-sm-2 col-form-label bold">Mobile No </label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" id="mobileNo" name="mobileNo"
+                        placeholder="Plz Enter Mobile Number With 10 Digits" required ngModel>
+                    <span class="help-text errorFont"
+                        *ngIf="!updateDoctorForm.controls.mobileNo.valid && updateDoctorForm.controls.mobileNo.touched">Please
+                        enter mobile Number with 10 digits</span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="address" class="col-sm-2 col-form-label bold">Address </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="address" name="address" placeholder="Plz Enter Address"
+                        required ngModel>
+                    <span class="help-text errorFont"
+                        *ngIf="!updateDoctorForm.controls.address.valid && updateDoctorForm.controls.address.touched">Please
+                        enter address</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10 offset-sm-2">
+                    <button type="submit" class="btn btn-success" [disabled]="!updateDoctorForm.valid">Update
+                        Doctor</button>
+                </div>
+            </div>
+        </form>
+        <div class="text-center mt-4 name">
+            <!-- Setting up message -->
+            <div class="alert alert-success "
+                *ngIf="isUpateDoctorFormSubmitted && isUpdateDoctorSuccess && updateDoctorSuccessMessage.length > 0">
+                <strong>{{updateDoctorSuccessMessage}}</strong>
+            </div>
+
+            <div class="alert alert-danger "
+                *ngIf="isUpateDoctorFormSubmitted && !isUpdateDoctorSuccess && updateDoctorErrorMessage.length > 0">
+                <strong>{{updateDoctorErrorMessage}}</strong>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="alert alert-danger text-center container-fluid" *ngIf="errorMessage">
-{{errorMessage}}
+
+<!-- If the Doctor's List is Empty -->
+<div class="alert alert-primary text-center" *ngIf="doctorsList.length < 1">
+    <strong>There is no doctor in HM to display </strong>
+</div>
+
+<!-- In case there is any issue fetching docto's List -->
+<div class="alert alert-danger text-center container-fluid" *ngIf="getAllDoctorsErrorMessage">
+    <strong>{{getAllDoctorsErrorMessage}}</strong>
 </div>

@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HospitalService } from '../service/hospital.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DoctorResponse } from '../modals/hospital/DoctorResponse.modal';
 import { PatientResponse } from '../modals/hospital/PatientResponse.modal';
 import { TreatmentHistoryResponse } from '../modals/hospital/TreatmentHistoryResponse.modal';
 import { AppointmentResponse } from '../modals/hospital/AppointmentResponse.modal';
+import { Doctor } from '../modals/hospital/Doctor.modal';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-doctor',
@@ -17,6 +19,10 @@ export class DoctorComponent implements OnInit {
   GET_ALL_PATIENTS_LIST_FOR_A_DOCTOR_UNSUCCESSFUL = "Patient's List For A Doctor Fetch Operation Unsuccessful !" + '\n';
   GET_ALL_TREATMENT_HISTORIES_FOR_A_DOCTOR_UNSUCCESSFUL = "Treatment Histories List For A Doctor Fetch Operation Unsuccessful !" + '\n';
   GET_ALL_APPOINTMENTS_FOR_A_DOCTOR_UNSUCCESSFUL = "Appointments For A Doctor Fetch Operation Unsuccessful !" + '\n';
+  UPDATE_DOCTOR_UNSUCCESSFUL = "Update Doctor Operation Unsuccessful ! " + '\n';
+  DELETE_DOCTOR_UNSUCCESSFUL = "Delete Doctor Operation Unsuccessful !" + '\n';
+
+  @ViewChild('updateDoctorForm') updateDoctorForm!: NgForm;
 
   doctorsList: DoctorResponse[] = [];
   patientListForADoctor: PatientResponse[] = [];
@@ -29,10 +35,19 @@ export class DoctorComponent implements OnInit {
   getAllTreatmentHistoriesForADoctorErrorMessage: string = "";
   getAllAppointmentsForADoctorErrorMessage: string = "";
   currentDoctor !: string;
+  updateDoctorSuccessMessage !: string;
+  updateDoctorErrorMessage !: string;
+  updateDoctorId !: string;
+  deleteDoctorSuccessMessage !: string;
+  deleteDoctorErrorMessage !: string;
 
   isGetAllPatientsForADoctor: boolean = false;
   isGetAllTreatmentHistoriesForADoctor: boolean = false;
   isGetAllAppointmentsForADoctor: boolean = false;
+  isUpdateDoctor: boolean = false;
+  isUpdateDoctorSuccess !: boolean;
+  isUpateDoctorFormSubmitted !: boolean;
+  isDeleteDoctorSuccess: boolean = false;
 
   constructor(private hospitalService: HospitalService, private activatedRoute: ActivatedRoute) { }
 
@@ -41,6 +56,16 @@ export class DoctorComponent implements OnInit {
     this.getAllPatientsForADoctorErrorMessage = "";
     this.getAllTreatmentHistoriesForADoctorErrorMessage = "";
     this.getAllAppointmentsForADoctorErrorMessage = "";
+    this.updateDoctorSuccessMessage = "";
+    this.updateDoctorErrorMessage = "";
+    this.updateDoctorId = "";
+    this.currentDoctor = "";
+    this.deleteDoctorSuccessMessage = "";
+    this.deleteDoctorErrorMessage = "";
+
+    this.isUpdateDoctorSuccess = false;
+    this.isUpateDoctorFormSubmitted = false;
+    this.isDeleteDoctorSuccess = false;
 
     this.token = this.activatedRoute.snapshot.params['token'];
     this.getAllDoctorsList();
@@ -116,7 +141,69 @@ export class DoctorComponent implements OnInit {
           }
         );
     }
+  }
 
+  /* Update Doctor */
+  public updateDoctor() {
+    this.isUpateDoctorFormSubmitted = true;
+
+    // Capture all the form details
+    var doctorName = this.updateDoctorForm.value.doctorName;
+    var specialisation = this.updateDoctorForm.value.specialisation;
+    var mobileNo = this.updateDoctorForm.value.mobileNo;
+    var address = this.updateDoctorForm.value.address;
+    var doctorToBeUpdated = new Doctor(doctorName, specialisation, mobileNo, address);
+
+    if (this.isUpdateDoctor) {
+      this.hospitalService.updateDoctor(this.token, this.updateDoctorId, doctorToBeUpdated)
+        .subscribe(
+          successMessage => {
+            this.isUpdateDoctorSuccess = true;
+            this.updateDoctorSuccessMessage = JSON.stringify(successMessage);
+
+            // Update current doctor's List on the dashboard
+            setTimeout(() => {
+              this.doctorsList = [];
+              this.getAllDoctorsList();
+              this.updateDoctorSuccessMessage = "";
+              this.isUpdateDoctor = false;
+            }, 2000);
+          }, (error: any) => {
+            this.isUpdateDoctorSuccess = false;
+            this.updateDoctorErrorMessage = this.UPDATE_DOCTOR_UNSUCCESSFUL + JSON.stringify(error.error);
+          }
+        );
+    }
+
+    this.updateDoctorForm.reset();
+  }
+
+  /* Delete Doctor */
+  public deleteDoctor(doctorResponse: DoctorResponse) {
+    this.currentDoctor = doctorResponse.name;
+    this.hospitalService.deleteDoctor(this.token, doctorResponse.id)
+      .subscribe(
+        successResponse => {
+          this.isDeleteDoctorSuccess = true;
+          this.deleteDoctorSuccessMessage = JSON.stringify(successResponse);
+
+          // Update current doctor's List on the dashboard
+          setTimeout(() => {
+            this.doctorsList = [];
+            this.getAllDoctorsList();
+            this.deleteDoctorSuccessMessage = "";
+          }, 2000);
+        }, (error: any) => {
+          this.isDeleteDoctorSuccess = false;
+          this.deleteDoctorErrorMessage = this.DELETE_DOCTOR_UNSUCCESSFUL + JSON.stringify(error.error);
+        }
+      )
+  }
+
+  public updateDoctorWithId(doctorResponse: DoctorResponse) {
+    this.isUpdateDoctor = !this.isUpdateDoctor;
+    this.updateDoctorId = doctorResponse.id;
+    this.currentDoctor = doctorResponse.name;
   }
 
 }

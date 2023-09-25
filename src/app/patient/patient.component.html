@@ -1,0 +1,71 @@
+<!-- Navbar -->
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand">Hospital Management</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/doctors/{{token}}">Doctors</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/patients/{{token}}">Patients</a>
+                </li>
+            </ul>
+        </div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="button" class="btn btn-outline-warning" routerLink="">Save
+                Patient</button>
+            <button type="button" class="btn btn-outline-danger" routerLink="">Log Out</button>
+        </div>
+    </div>
+</nav>
+
+<!-- Get Patient's List From Database -->
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+        <h1 class="display-6 text-center" *ngIf="patientsList.length > 0">Patient's List</h1>
+        <table class="table table-hover table-striped">
+            <thead *ngIf="patientsList.length > 0">
+                <tr>
+                    <th>Name</th>
+                    <th>Mobile No</th>
+                    <th>Address</th>
+                    <th>Brief Problem Description</th>
+                    <th>Treatment Status</th>
+                    <th>Operations</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let patient of patientsList;">
+                    <td>{{patient.name}}</td>
+                    <td>{{patient.mobileNo}}</td>
+                    <td>{{patient.address}}</td>
+                    <td>{{patient.briefProblemDescription}}</td>
+                    <td>{{patient.treatmentStatus}}</td>
+                    <td>
+                        <button type="button" class="btn btn-warning btn-sm">Bills</button>
+                        <button type="button" class="btn btn-dark btn-sm">Appointments</button>
+                        <button type="button" class="btn btn-info btn-sm">Treatment Histories</button>
+                        <button type="button" class="btn btn-secondary btn-sm">Update</button>
+                        <button type="button" class="btn btn-danger btn-sm">Delete</button>
+                        <button type="button" class="btn btn-primary btn-sm">Assign Doctor</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- If the Patient's List is Empty -->
+<div class="alert alert-primary text-center" *ngIf="patientsList.length < 1">
+    <strong>There is no patient in HM to display </strong>
+</div>
+
+<!-- In case there is any issue fetching patient's List -->
+<div class="alert alert-danger text-center container-fluid"
+    *ngIf="getAllPatientsErrorMessage && getAllPatientsErrorMessage.length > 0">
+    <strong>{{getAllPatientsErrorMessage}}</strong>
+</div>

@@ -12,6 +12,7 @@ import { HospitalDashboardComponent } from './hospital-dashboard/hospital-dashbo
 import { DoctorComponent } from './doctor/doctor.component';
 import { HospitalService } from './service/hospital.service';
 import { SavedoctorComponent } from './doctor/savedoctor/savedoctor.component';
+import { PatientComponent } from './patient/patient.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { SavedoctorComponent } from './doctor/savedoctor/savedoctor.component';
     SignupComponent,
     HospitalDashboardComponent,
     DoctorComponent,
-    SavedoctorComponent
+    SavedoctorComponent,
+    PatientComponent
   ],
   imports: [
     BrowserModule,

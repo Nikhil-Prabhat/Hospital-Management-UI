@@ -47,7 +47,6 @@ export class SavedoctorComponent implements OnInit {
         this.saveDoctorMessage = JSON.stringify(response);
       }, (error: any) => {
         // In case of error response
-        console.log(error.error.mobileNo);
         this.isSaveDoctorSuccess = false;
         this.saveDoctorMessage = this.SAVE_DOCTOR_FAILURE + error.error;
       });

@@ -1,0 +1,72 @@
+<div class="vh-100 d-flex justify-content-center align-items-center">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <div class="card bg-white">
+                    <div class="card-body p-5">
+
+                        <form class="mb-3 mt-md-4" (ngSubmit)="savePatient()" #savePatientForm="ngForm">
+
+                            <h2 class="fw-bold mb-2 text-uppercase ">Save Patient</h2>
+                            <p class=" mb-5">Please enter patient details</p>
+
+                            <div class="mb-3 form-group">
+                                <label for="patientName" class="form-label ">Patient Name</label>
+                                <input type="text" class="form-control" id="patientName" name="patientName"
+                                    placeholder="Plz enter patient name" required ngModel />
+                                <span class="help-text errorFont"
+                                    *ngIf="!savePatientForm.controls.patientName.valid && savePatientForm.controls.patientName.touched">Please
+                                    enter patient name</span>
+                            </div>
+                            <div class="mb-3 form-group">
+                                <label for="mobileNo" class="form-label">Mobile No</label>
+                                <input type="number" class="form-control" id="mobileNo" name="mobileNo"
+                                    placeholder="Please enter mobileNumber of 10 digits" required ngModel />
+                                <span class="help-text errorFont"
+                                    *ngIf="!savePatientForm.controls.mobileNo.valid && savePatientForm.controls.mobileNo.touched">Please
+                                    enter mobileNo of 10 digits</span>
+                            </div>
+                            <div class="mb-3 form-group">
+                                <label for="address" class="form-label ">Address</label>
+                                <input type="text" class="form-control" id="address" name="address"
+                                    placeholder="Plz enter address name" required ngModel />
+                                <span class="help-text errorFont"
+                                    *ngIf="!savePatientForm.controls.address.valid && savePatientForm.controls.address.touched">Please
+                                    enter address of the patient</span>
+                            </div>
+                            <div class="mb-3 form-group">
+                                <label for="briefProblemDescription" class="form-label">BriefProblemDescription</label>
+                                <input type="text" class="form-control" id="briefProblemDescription"
+                                    name="briefProblemDescription" placeholder="Please enter brief problem description" required
+                                    ngModel />
+                                <span class="help-text errorFont"
+                                    *ngIf="!savePatientForm.controls.briefProblemDescription.valid && savePatientForm.controls.briefProblemDescription.touched">Please
+                                    enter brief problem description</span>
+                            </div>
+                            <div class="mb-3 form-group">
+                                <label for="treatmentStatus" class="form-label">Treatment Status</label>
+                                <input type="text" class="form-control" id="treatmentStatus" name="treatmentStatus"
+                                     disabled [(ngModel)]="treatmentStatusForNewPatient"/>
+                            </div>
+                            <div class="d-grid">
+                                <button class="btn btn-outline-dark" type="submit"
+                                    [disabled]="!savePatientForm.valid">Save Patient</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4 name">
+            <!-- Setting up message -->
+            <div class="alert alert-success " *ngIf="isSubmitted && isSavePatientSuccess">
+                <strong>{{savePatientMessage}}</strong>
+            </div>
+
+            <div class="alert alert-danger " *ngIf="isSubmitted && !isSavePatientSuccess">
+                <strong>{{savePatientMessage}}</strong>
+            </div>
+        </div>
+    </div>
+</div>

@@ -5,6 +5,8 @@ import { DoctorResponse } from '../modals/hospital/DoctorResponse.modal';
 import { PatientResponse } from '../modals/hospital/PatientResponse.modal';
 import { TreatmentHistoryResponse } from '../modals/hospital/TreatmentHistoryResponse.modal';
 import { AppointmentResponse } from '../modals/hospital/AppointmentResponse.modal';
+import { Patient } from '../modals/hospital/Patient.modal';
+import { BillResponse } from '../modals/hospital/BillResponse.modal';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +26,8 @@ export class HospitalService {
 
   /* Patient's Endpoint urls */
   GET_ALL_PATIENTS = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/getallpatients";
+  SAVE_PATIENT = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/savepatients";
+  GET_BILL_FOR_A_PATIENT = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/getbillbypatientid/";
 
   BEARER_PREFIX = "Bearer ";
   AUTHORIZATION = "Authorization";
@@ -80,6 +84,18 @@ export class HospitalService {
   public getAllPatients(token: string) {
     const headers = this.getHeaders(token);
     return this.httpClient.get<PatientResponse[]>(this.GET_ALL_PATIENTS, { headers });
+  }
+
+  /* Save Patient */
+  public savePatient(token: string, patient: Patient) {
+    const headers = this.getHeaders(token);
+    return this.httpClient.post(this.SAVE_PATIENT, patient, { headers, responseType: 'text' as 'json' });
+  }
+
+  /* Get Bill For Patient */
+  public getBillForPatient(token: string, patientId: string) {
+    const headers = this.getHeaders(token);
+    return this.httpClient.get<BillResponse>(this.GET_BILL_FOR_A_PATIENT + patientId, { headers });
   }
 
   private getHeaders(token: string) {

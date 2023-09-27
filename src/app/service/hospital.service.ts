@@ -28,6 +28,7 @@ export class HospitalService {
   GET_ALL_PATIENTS = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/getallpatients";
   SAVE_PATIENT = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/savepatients";
   GET_BILL_FOR_A_PATIENT = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/getbillbypatientid/";
+  GET_APPOINTMENTS_FOR_A_PATIENT = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/getallappointmentsforapatient/";
 
   BEARER_PREFIX = "Bearer ";
   AUTHORIZATION = "Authorization";
@@ -96,6 +97,12 @@ export class HospitalService {
   public getBillForPatient(token: string, patientId: string) {
     const headers = this.getHeaders(token);
     return this.httpClient.get<BillResponse>(this.GET_BILL_FOR_A_PATIENT + patientId, { headers });
+  }
+
+  /* Get Appointments For A Patient */
+  public getAllAppointmentsForPatient(token: string, patientName: string) {
+    const headers = this.getHeaders(token);
+    return this.httpClient.get<AppointmentResponse[]>(this.GET_APPOINTMENTS_FOR_A_PATIENT + patientName, { headers });
   }
 
   private getHeaders(token: string) {

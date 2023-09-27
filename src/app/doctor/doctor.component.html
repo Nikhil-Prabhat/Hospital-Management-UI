@@ -143,7 +143,7 @@
         </div>
     </div>
 
-    <!-- CASE : When no patients to display -->
+    <!-- CASE : When no treatment histories to display -->
     <div class="alert alert-primary text-center"
         *ngIf="treatmentHistoriesListForADoctor.length < 1 && isGetAllTreatmentHistoriesForADoctor">
         <strong>There is no treatment history in HM for doc : {{currentDoctor}} </strong>
@@ -182,7 +182,7 @@
         </div>
     </div>
 
-    <!-- CASE : When no patients to display -->
+    <!-- CASE : When no appointments to display -->
     <div class="alert alert-primary text-center"
         *ngIf="appointmentListForADoctor.length < 1 && isGetAllAppointmentsForADoctor">
         <strong>There is no appointment in HM for doc : {{currentDoctor}} </strong>

@@ -47,8 +47,9 @@
                     <td>{{patient.treatmentStatus}}</td>
                     <td>
                         <button type="button" class="btn btn-warning btn-sm"
-                        (click)="getBillForPatient(patient)">Bills</button>
-                        <button type="button" class="btn btn-dark btn-sm">Appointments</button>
+                            (click)="getBillForPatient(patient)">Bills</button>
+                        <button type="button" class="btn btn-dark btn-sm"
+                        (click)="getAppointmentsForAPatient(patient)">Appointments</button>
                         <button type="button" class="btn btn-info btn-sm">Treatment Histories</button>
                         <button type="button" class="btn btn-secondary btn-sm">Update</button>
                         <button type="button" class="btn btn-danger btn-sm">Delete</button>
@@ -60,17 +61,70 @@
     </div>
 
     <!-- Bill For Patient -->
-    <!-- <div class="container-fluid" *ngIf="isGetBillForAPatient">
-        <h1 class="display-6 text-center">Bill For Patient : {{currentPatientName}}</h1>
+    <div class="container-fluid" *ngIf="isGetBillForAPatient">
 
-        <div class="row mb-3">
-            <label class="col-sm-2 col-form-label bold">Name Of The Patient</label>
-            <div class="col-sm-10">
-                <label class="col-sm-2 col-form-label bold">billListForPatient.indexOf(0)</label>
-            </div>
+        <div class="alert alert-danger text-center container-fluid" *ngIf="getBillForPatientErrorMessage">
+            {{getBillForPatientErrorMessage}}
+        </div>
+
+        <h1 class="display-6 text-center" *ngIf="billListForPatient.length > 0">Bill For Patient :
+            {{currentPatientName}}</h1>
+
+        <div class="row  text-center" *ngIf="billListForPatient.length > 0">
+            <label class="col-form-label bold">Name Of The Patient : {{currentBillForPatient.patient.name}}</label>
+            <label class="col-form-label bold">Consultation Fee : INR {{currentBillForPatient.consultationFee}}</label>
+            <label class="col-form-label bold">Pharmacy Fee : INR {{currentBillForPatient.pharmacyFee}}</label>
+            <label class="col-form-label bold">Hospitalization Fee : INR
+                {{currentBillForPatient.hospitalizationFee}}</label>
+            <label class="col-form-label bold">Total Amount Of Bill : INR
+                {{currentBillForPatient.totalAmountOfBill}}</label>
         </div>
     </div>
-</div> -->
+
+    <!-- CASE : When no bill to display -->
+    <div class="alert alert-primary text-center" *ngIf="billListForPatient.length < 1 && isGetBillForAPatient">
+        <strong>There is no bill currently in HM for patient : {{currentPatientName}} </strong>
+    </div>
+
+    <!-- Get All Appointments For A Patient -->
+    <div class="container-fluid" *ngIf="isGetAllAppointmentsForAPatient">
+        <div class="alert alert-danger text-center container-fluid" *ngIf="getAllAppointmentsForAPatientErrorMessage">
+            {{getAllAppointmentsForAPatientErrorMessage}}
+        </div>
+
+        <div class="row justify-content-center align-items-center">
+            <h1 class="display-6 text-center" *ngIf="appointmentsListForPatient.length > 0"> Appointments
+                For Patient :
+                {{currentPatientName}}</h1>
+            <table class="table table-hover table-striped">
+                <thead *ngIf="appointmentsListForPatient.length > 0">
+                    <tr>
+                        <th>Patient Name</th>
+                        <th>Patient Mobile No</th>
+                        <th>Doctor Assigned</th>
+                        <th>Appointment Date</th>
+                        <th>Appointment Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let appointment of appointmentsListForPatient;">
+                        <td>{{appointment.patientName}}</td>
+                        <td>{{appointment.patientMobileNo}}</td>
+                        <td>{{appointment.doctorAssignedName}}</td>
+                        <td>{{appointment.appointmentDate}}</td>
+                        <td>{{appointment.appointmentStatus}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- CASE : When no appointments to display -->
+    <div class="alert alert-primary text-center"
+        *ngIf="appointmentsListForPatient.length < 1 && isGetAllAppointmentsForAPatient">
+        <strong>There is no appointment in HM for patient : {{currentPatientName}} </strong>
+    </div>
+</div>
 
 <!-- If the Patient's List is Empty -->
 <div class="alert alert-primary text-center" *ngIf="patientsList.length < 1">

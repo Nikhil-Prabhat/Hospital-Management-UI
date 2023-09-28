@@ -58,11 +58,77 @@
                             (click)="updatePatientWithId(patient)">Update</button>
                         <button type="button" class="btn btn-danger btn-sm"
                             (click)="deletePatient(patient)">Delete</button>
-                        <button type="button" class="btn btn-primary btn-sm">Assign Doctor</button>
+                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                            data-bs-target="#assigndoctortopatient"
+                            (click)="getAllDoctorsListForPatientMapping(patient)">Assign Doctor</button>
                     </td>
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <!-- The Modal -->
+    <div class="modal" id="assigndoctortopatient">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title display-5 text-secondary">Choose doctor</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="alert alert-danger text-center container-fluid" *ngIf="getAllDoctorsInHMErrorMessage">
+                        {{getAllDoctorsInHMErrorMessage}}
+                    </div>
+
+                    <div class="row justify-content-center align-items-center">
+                        <table class="table table-hover table-striped">
+                            <thead *ngIf="getAllDoctorsList.length > 0">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Specialisation</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let doctor of getAllDoctorsList;">
+                                    <td>{{doctor.name}}</td>
+                                    <td>{{doctor.specialisation}}</td>
+                                    <td><button type="button" class="btn btn-outline-warning btn-sm"
+                                            (click)="assignDoctorToPatientOperation(doctor.id)">Assign</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Setting up message -->
+                    <div class="alert alert-success "
+                        *ngIf="isAssignDoctorToPatientSuccess && assignDoctorToPatientMessage.length > 0">
+                        <strong>{{assignDoctorToPatientMessage}}</strong>
+                    </div>
+
+                    <div class="alert alert-danger "
+                        *ngIf="!isAssignDoctorToPatientSuccess && assignDoctorToPatientMessage.length > 0">
+                        <strong>{{assignDoctorToPatientMessage}}</strong>
+                    </div>
+
+                    <!-- CASE : When no doctor to display -->
+                    <div class="alert alert-primary text-center" *ngIf="getAllDoctorsList.length < 1 ">
+                        <strong>There is no doctor in HM for the patient to be assigned </strong>
+                    </div>
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
     </div>
 
     <!-- Delete Patient -->

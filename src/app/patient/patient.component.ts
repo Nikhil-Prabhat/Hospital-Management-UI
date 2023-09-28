@@ -24,6 +24,8 @@ export class PatientComponent implements OnInit {
   GET_ALL_DOCTORS_FOR_A_PATIENT_UNSUCCESSFUL = "Get All Doctors For A Patient Operation Unsuccessful ! " + '\n';
   UPDATE_PATIENT_UNSUCCESSFUL = "Update Patient Operation Unsuccessful ! " + '\n';
   DELETE_PATIENT_UNSUCCESSFUL = "Delete Patient Operation Unsuccessful ! " + '\n';
+  GET_ALL_DOCTORS_IN_HM_UNSUCCESSFUL = "Get All Doctors in HM Operation Unsuccessful ! ";
+  ASSIGN_PATIENT_TO_DOCTOR_UNSUCCESSFUL = "Assign Doctor To Patient Operation Unsuccessful ! " + '\n';
 
   @ViewChild('updatePatientForm') updatePatientForm!: NgForm;
 
@@ -33,6 +35,7 @@ export class PatientComponent implements OnInit {
   treatmentHistoriesListForAPatient: TreatmentHistoryResponse[] = [];
   doctorListForAPatient: DoctorResponse[] = [];
   currentBillForPatient !: BillResponse;
+  getAllDoctorsList: DoctorResponse[] = [];
 
   token !: string;
   getAllPatientsErrorMessage !: string;
@@ -46,6 +49,10 @@ export class PatientComponent implements OnInit {
   updatePatientErrorMessage !: string;
   deletePatientSuccessMessage !: string;
   deletePatientErrorMessage !: string;
+  getAllDoctorsInHMErrorMessage !: string;
+  assignPatientId !: string;
+  assignDoctorId!: string;
+  assignDoctorToPatientMessage !: string;
 
   isGetBillForAPatient: boolean = false;
   isGetAllAppointmentsForAPatient: boolean = false;
@@ -55,6 +62,7 @@ export class PatientComponent implements OnInit {
   isUpatePatientFormSubmitted: boolean = false;
   isUpdatePatientSuccess: boolean = false;
   isDeletePatientSuccess: boolean = false;
+  isAssignDoctorToPatientSuccess: boolean = false;
 
 
   constructor(private hospitalService: HospitalService, private activatedRoute: ActivatedRoute) { }
@@ -70,6 +78,10 @@ export class PatientComponent implements OnInit {
     this.updatePatientSuccessMessage = "";
     this.deletePatientErrorMessage = "";
     this.deletePatientSuccessMessage = "";
+    this.getAllDoctorsInHMErrorMessage = "";
+    this.assignDoctorId = "";
+    this.assignPatientId = "";
+    this.assignDoctorToPatientMessage = "";
 
     this.isGetBillForAPatient = false;
     this.isGetAllAppointmentsForAPatient = false;
@@ -79,6 +91,7 @@ export class PatientComponent implements OnInit {
     this.isUpdatePatientSuccess = false;
     this.isUpatePatientFormSubmitted = false;
     this.isDeletePatientSuccess = false;
+    this.isAssignDoctorToPatientSuccess = false;
 
     this.token = this.activatedRoute.snapshot.params['token'];
     this.getAllPatientsList();
@@ -243,6 +256,45 @@ export class PatientComponent implements OnInit {
     this.isUpdatePatient = !this.isUpdatePatient;
     this.updatePatientId = patient.id;
     this.currentPatientName = patient.name;
+  }
+
+  /* Get All doctor's list */
+  public getAllDoctorsListForPatientMapping(patientResponse: PatientResponse) {
+    this.getAllDoctorsList = [];
+    this.assignPatientId = patientResponse.id;
+    this.hospitalService.getAllDoctors(this.token)
+      .subscribe(
+        (doctorList: DoctorResponse[]) => {
+          for (var doctor of doctorList) {
+            this.getAllDoctorsList.push(doctor);
+          }
+        }, (error: any) => {
+          this.getAllDoctorsList = [];
+          this.getAllDoctorsInHMErrorMessage = this.GET_ALL_DOCTORS_IN_HM_UNSUCCESSFUL + JSON.stringify(error.error);
+        }
+      )
+  }
+
+  /* Assign doctor to patient */
+  public assignDoctorToPatientOperation(doctorId: string) {
+    console.log(doctorId);
+    this.assignDoctorId = doctorId;
+    this.hospitalService.assignDoctorToPatient(this.token, this.assignPatientId, this.assignDoctorId)
+      .subscribe(
+        successResponse => {
+          this.isAssignDoctorToPatientSuccess = true;
+          this.assignDoctorToPatientMessage = JSON.stringify(successResponse);
+        }, (error: any) => {
+          this.isAssignDoctorToPatientSuccess = false;
+          this.assignDoctorToPatientMessage = this.ASSIGN_PATIENT_TO_DOCTOR_UNSUCCESSFUL + JSON.stringify(error.error);
+        }
+      );
+
+      setTimeout(
+        () => {
+            this.assignDoctorToPatientMessage = "";
+        }, 2000
+      );
   }
 
 }

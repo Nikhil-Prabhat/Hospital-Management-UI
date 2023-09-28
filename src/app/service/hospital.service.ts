@@ -29,6 +29,10 @@ export class HospitalService {
   SAVE_PATIENT = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/savepatients";
   GET_BILL_FOR_A_PATIENT = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/getbillbypatientid/";
   GET_APPOINTMENTS_FOR_A_PATIENT = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/getallappointmentsforapatient/";
+  GET_TREATMENT_HISTORIES_FOR_A_PATIENT = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/getalltreatmenthistoryforapatient/";
+  GET_ALL_DOCTORS_FOR_A_PATIENT = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/getalldoctorsforapatient/";
+  UPDATE_PATIENT = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/updatepatient/";
+  DELETE_PATIENT = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/deletepatient/";
 
   BEARER_PREFIX = "Bearer ";
   AUTHORIZATION = "Authorization";
@@ -103,6 +107,30 @@ export class HospitalService {
   public getAllAppointmentsForPatient(token: string, patientName: string) {
     const headers = this.getHeaders(token);
     return this.httpClient.get<AppointmentResponse[]>(this.GET_APPOINTMENTS_FOR_A_PATIENT + patientName, { headers });
+  }
+
+  /* Get Treatment Histories For A Patient */
+  public getAllTreatmentHistoriesForAPatient(token: string, patientId: string) {
+    const headers = this.getHeaders(token);
+    return this.httpClient.get<TreatmentHistoryResponse[]>(this.GET_TREATMENT_HISTORIES_FOR_A_PATIENT + patientId, { headers });
+  }
+
+  /* Get All Doctors For A Patient */
+  public getAllDoctorsForAPatient(token: string, patientId: string) {
+    const headers = this.getHeaders(token);
+    return this.httpClient.get<DoctorResponse[]>(this.GET_ALL_DOCTORS_FOR_A_PATIENT + patientId, { headers });
+  }
+
+  /* Update Patient */
+  public updatePatient(token: string, id: string, patient: Patient) {
+    const headers = this.getHeaders(token);
+    return this.httpClient.put(this.UPDATE_PATIENT + id, patient, { headers, responseType: 'text' as 'json' })
+  }
+
+  /* Delete Patient */
+  public deletePatient(token: string, id: string) {
+    const headers = this.getHeaders(token);
+    return this.httpClient.delete(this.DELETE_PATIENT + id, { headers, responseType: 'text' as 'json' });
   }
 
   private getHeaders(token: string) {

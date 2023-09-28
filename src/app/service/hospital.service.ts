@@ -34,6 +34,9 @@ export class HospitalService {
   UPDATE_PATIENT = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/updatepatient/";
   DELETE_PATIENT = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/deletepatient/";
 
+  /* Assign doctor and patient */
+  ASSIGN_PATIENT_TO_DOCTOR = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/assignpatienttodoctor/";
+
   BEARER_PREFIX = "Bearer ";
   AUTHORIZATION = "Authorization";
 
@@ -131,6 +134,12 @@ export class HospitalService {
   public deletePatient(token: string, id: string) {
     const headers = this.getHeaders(token);
     return this.httpClient.delete(this.DELETE_PATIENT + id, { headers, responseType: 'text' as 'json' });
+  }
+
+  /* Assign patient and doctor */
+  public assignDoctorToPatient(token: string, patientId: string, doctorId: string) {
+    const headers = this.getHeaders(token);
+    return this.httpClient.put(this.ASSIGN_PATIENT_TO_DOCTOR + patientId + "/" + doctorId, null, { headers, responseType: 'text' as 'json' })
   }
 
   private getHeaders(token: string) {

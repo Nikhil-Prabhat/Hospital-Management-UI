@@ -1,1 +1,73 @@
-<p>saveappointment works!</p>
+<div class="vh-100 d-flex justify-content-center align-items-center">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <div class="card bg-white">
+                    <div class="card-body p-5">
+
+                        <form class="mb-3 mt-md-4" (ngSubmit)="saveAppointment()" #saveAppointmentForm="ngForm">
+
+                            <h2 class="fw-bold mb-2 text-uppercase ">Save Appointment</h2>
+                            <p class=" mb-5">Please enter appointment details</p>
+
+                            <div class="mb-3 form-group">
+                                <label for="patientname" class="form-label ">Patient Name</label>
+                                <input type="text" class="form-control" id="patientname" name="patientname"
+                                    placeholder="Plz enter patient name" required ngModel />
+                                <span class="help-text errorFont"
+                                    *ngIf="!saveAppointmentForm.controls.patientname.valid && saveAppointmentForm.controls.patientname.touched">Please
+                                    enter patient name</span>
+                            </div>
+                            <div class="mb-3 form-group">
+                                <label for="mobileNo" class="form-label ">Mobile No</label>
+                                <input type="number" class="form-control" id="mobileNo" name="mobileNo"
+                                    placeholder="Plz enter patient mobile No" required ngModel />
+                                <span class="help-text errorFont"
+                                    *ngIf="!saveAppointmentForm.controls.mobileNo.valid && saveAppointmentForm.controls.mobileNo.touched">Please
+                                    enter patient mobile No</span>
+                            </div>
+                            <div class="mb-3 form-group">
+                                <label for="doctorAssigned" class="form-label ">Doctor Assigned</label>
+                                <input type="text" class="form-control" id="doctorAssigned" name="doctorAssigned"
+                                    placeholder="Plz enter doctor assigned name" required ngModel />
+                                <span class="help-text errorFont"
+                                    *ngIf="!saveAppointmentForm.controls.doctorAssigned.valid && saveAppointmentForm.controls.doctorAssigned.touched">Please
+                                    enter doctor assigned name</span>
+                            </div>
+                            <div class="mb-3 form-group">
+                                <label for="appointmentDate" class="form-label ">Doctor Assigned</label>
+                                <input type="date" class="form-control" id="appointmentDate" name="appointmentDate"
+                                    placeholder="Plz select appointment date" required ngModel />
+                                <span class="help-text errorFont"
+                                    *ngIf="!saveAppointmentForm.controls.appointmentDate.valid && saveAppointmentForm.controls.appointmentDate.touched">Please
+                                    enter appointment date</span>
+                            </div>
+                            <div class="mb-3 form-group">
+                                <label for="appointmentStatus" class="form-label ">Appointment Status</label>
+                                <input type="text" class="form-control" id="appointmentStatus" name="appointmentStatus"
+                                    disabled [(ngModel)]="newAppointmentStatus" />
+                            </div>
+
+
+                            <div class="d-grid">
+                                <button class="btn btn-outline-dark" type="submit"
+                                    [disabled]="!saveAppointmentForm.valid">Save Appointment</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4 name">
+            <!-- Setting up message -->
+            <div class="alert alert-success " *ngIf="isSubmitted && isSaveAppointmentSuccess">
+                <strong>{{saveAppointmentMessage}}</strong>
+            </div>
+
+            <div class="alert alert-danger " *ngIf="isSubmitted && !isSaveAppointmentSuccess">
+                <strong>{{saveAppointmentMessage}}</strong>
+            </div>
+        </div>
+    </div>
+</div>

@@ -197,7 +197,7 @@ export class DoctorComponent implements OnInit {
           this.isDeleteDoctorSuccess = false;
           this.deleteDoctorErrorMessage = this.DELETE_DOCTOR_UNSUCCESSFUL + JSON.stringify(error.error);
         }
-      )
+      );
   }
 
   public updateDoctorWithId(doctorResponse: DoctorResponse) {

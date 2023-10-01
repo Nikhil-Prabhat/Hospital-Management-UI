@@ -7,6 +7,7 @@ import { TreatmentHistoryResponse } from '../modals/hospital/TreatmentHistoryRes
 import { AppointmentResponse } from '../modals/hospital/AppointmentResponse.modal';
 import { Patient } from '../modals/hospital/Patient.modal';
 import { BillResponse } from '../modals/hospital/BillResponse.modal';
+import { Appointment } from '../modals/hospital/Appointment.modal';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +42,7 @@ export class HospitalService {
   GET_ALL_APPOINTMENTS = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/getallappointments";
   DELETE_APPOINTMENT_BY_ID = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/deleteappointment/";
   UPDATE_APPOINTMENT_STATUS = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/updateappointmentstatus/";
+  SAVE_APPOINTMENT = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/saveappointment";
 
   BEARER_PREFIX = "Bearer ";
   AUTHORIZATION = "Authorization";
@@ -165,6 +167,12 @@ export class HospitalService {
   public updateAppointmentStatus(token: string, appointmentId: string, appointmentStatus: string) {
     const headers = this.getHeaders(token);
     return this.httpClient.put(this.UPDATE_APPOINTMENT_STATUS + appointmentId + "/" + appointmentStatus, null, { headers, responseType: 'text' as 'json' });
+  }
+
+  /* Save Appointment */
+  public saveAppointment(token: string, appointment: Appointment) {
+    const headers = this.getHeaders(token);
+    return this.httpClient.post(this.SAVE_APPOINTMENT, appointment, { headers, responseType: 'text' as 'json' });
   }
 
   private getHeaders(token: string) {

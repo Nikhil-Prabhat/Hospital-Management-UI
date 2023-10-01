@@ -40,6 +40,7 @@ export class HospitalService {
   /* Appointment's Endpoints urls */
   GET_ALL_APPOINTMENTS = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/getallappointments";
   DELETE_APPOINTMENT_BY_ID = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/deleteappointment/";
+  UPDATE_APPOINTMENT_STATUS = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/updateappointmentstatus/";
 
   BEARER_PREFIX = "Bearer ";
   AUTHORIZATION = "Authorization";
@@ -158,6 +159,12 @@ export class HospitalService {
   public deleteAppointment(token: string, appointmentId: string) {
     const headers = this.getHeaders(token);
     return this.httpClient.delete(this.DELETE_APPOINTMENT_BY_ID + appointmentId, { headers, responseType: 'text' as 'json' });
+  }
+
+  /* Update Appointment Status */
+  public updateAppointmentStatus(token: string, appointmentId: string, appointmentStatus: string) {
+    const headers = this.getHeaders(token);
+    return this.httpClient.put(this.UPDATE_APPOINTMENT_STATUS + appointmentId + "/" + appointmentStatus, null, { headers, responseType: 'text' as 'json' });
   }
 
   private getHeaders(token: string) {

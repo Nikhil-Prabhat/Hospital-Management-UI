@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HospitalService } from '../service/hospital.service';
 import { AppointmentResponse } from '../modals/hospital/AppointmentResponse.modal';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-appointments',
@@ -12,6 +13,9 @@ export class AppointmentsComponent implements OnInit {
 
   GET_ALL_APPOINTMENTS_LIST_UNSUCCESSFUL = "Get All Appointments List Operation Unsuccessful !";
   DELETE_APPOINTMENT_UNSUCCESSFUL = "Delete Appointment Operation Unsuccessful !";
+  UPDATE_APPOINTMENT_STATUS_UNSUCCESSFUL = "Update Appointment Status Unsuccessful !";
+
+  @ViewChild('updateAppointmentForm') updateAppointmentForm!: NgForm;
 
   appointmentsList: AppointmentResponse[] = [];
 
@@ -19,9 +23,15 @@ export class AppointmentsComponent implements OnInit {
   getAllAppointmentsErrorMessage: string = "";
   deleteAppointmentErrorMessage: string = "";
   deleteAppointmentSuccessMessage: string = "";
+  updateAppointmentSuccessMessage: string = "";
+  updateAppointmentErrorMessage: string = "";
   token!: string;
+  currentAppointmentId !: string;
 
   isAppointmentDeleteSuccess: boolean = false;
+  isUpdateAppointmentFormSubmitted: boolean = false;
+  isUpdateAppointmentSuccess: boolean = false;
+  isUpdateAppointment: boolean = false;
 
   constructor(private hospitalService: HospitalService, private activatedRoute: ActivatedRoute) { }
 
@@ -29,9 +39,16 @@ export class AppointmentsComponent implements OnInit {
     this.getAllAppointmentsErrorMessage = "";
     this.deleteAppointmentErrorMessage = "";
     this.deleteAppointmentSuccessMessage = "";
+    this.updateAppointmentErrorMessage = "";
+    this.updateAppointmentSuccessMessage = "";
+    this.currentAppointmentId = "";
+
     this.token = this.activatedRoute.snapshot.params['token'];
 
     this.isAppointmentDeleteSuccess = false;
+    this.isUpdateAppointmentFormSubmitted = false;
+    this.isUpdateAppointmentSuccess = false;
+    this.isUpdateAppointment = false;
 
     this.getAllAppointments();
   }
@@ -70,6 +87,40 @@ export class AppointmentsComponent implements OnInit {
           this.deleteAppointmentErrorMessage = this.DELETE_APPOINTMENT_UNSUCCESSFUL + JSON.stringify(error.error);
         }
       )
+  }
+
+  /* Update Appointment */
+  public updateAppointmentWithId(appointmentResponse: AppointmentResponse) {
+    this.currentAppointmentId = appointmentResponse.id;
+    this.isUpdateAppointment = !this.isUpdateAppointment;
+    this.currentAppointmentForPatient = appointmentResponse.patientName;
+  }
+
+  public updateAppointmentStatus() {
+    this.isUpdateAppointmentFormSubmitted = true;
+
+    // Capture arguments
+    var appointmentStatus = this.updateAppointmentForm.value.appointmentStatus;
+
+    if (this.isUpdateAppointment) {
+      this.hospitalService.updateAppointmentStatus(this.token, this.currentAppointmentId, appointmentStatus)
+        .subscribe(
+          successResponse => {
+            this.updateAppointmentSuccessMessage = JSON.stringify(successResponse);
+            this.isUpdateAppointmentSuccess = true;
+
+            setTimeout(() => {
+              this.appointmentsList = [];
+              this.getAllAppointments();
+              this.updateAppointmentSuccessMessage = "";
+              this.isUpdateAppointment = false;
+            }, 2000);
+          }, (error: any) => {
+            this.updateAppointmentErrorMessage = this.UPDATE_APPOINTMENT_STATUS_UNSUCCESSFUL + JSON.stringify(error.error);
+            this.isUpdateAppointmentSuccess = false;
+          }
+        );
+    }
   }
 
 }

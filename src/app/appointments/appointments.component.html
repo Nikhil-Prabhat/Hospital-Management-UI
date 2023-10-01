@@ -19,8 +19,8 @@
             </ul>
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <!-- <button type="button" class="btn btn-outline-warning" routerLink="/savedoctor/{{token}}">Save
-                Doctor</button> -->
+            <button type="button" class="btn btn-outline-warning" routerLink="/saveappointment/{{token}}">Save
+                Appointment</button>
             <button type="button" class="btn btn-outline-danger" routerLink="">Log Out</button>
         </div>
     </div>
@@ -49,9 +49,10 @@
                     <td>{{appointment.appointmentDate}}</td>
                     <td>{{appointment.appointmentStatus}}</td>
                     <td>
-                        <button type="button" class="btn btn-primary btn-sm">Update Status</button>
-                        <button type="button" class="btn btn-danger btn-sm" 
-                        (click)="deleteAppointmentById(appointment)">Delete</button>
+                        <button type="button" class="btn btn-primary btn-sm"
+                            (click)="updateAppointmentWithId(appointment)">Update Status</button>
+                        <button type="button" class="btn btn-danger btn-sm"
+                            (click)="deleteAppointmentById(appointment)">Delete</button>
                     </td>
                 </tr>
             </tbody>
@@ -69,6 +70,45 @@
         <div class="alert alert-danger "
             *ngIf="!isAppointmentDeleteSuccess && deleteAppointmentErrorMessage.length > 0">
             <strong>{{deleteAppointmentErrorMessage}}</strong>
+        </div>
+    </div>
+
+    <!-- Update Appointment -->
+    <div class="container-fluid" *ngIf="isUpdateAppointment">
+        <h1 class="display-6 text-center">Update Appointment Status for Patient : {{currentAppointmentForPatient}}</h1>
+        <form (ngSubmit)="updateAppointmentStatus()" #updateAppointmentForm="ngForm">
+            <div class="row mb-3">
+                <label for="appointmentStatus" class="col-sm-2 col-form-label bold">Appointment Status</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="appointmentStatus" name="appointmentStatus" required ngModel>
+                        <option value="" disabled selected>Please choose correct appointment status</option>
+                        <option value="CONFIRMED">CONFIRMED</option>
+                        <option value="NOT_ACCEPTED">NOT_ACCEPTED</option>
+                    </select>
+                    <span class="help-text errorFont"
+                        *ngIf="!updateAppointmentForm.controls.appointmentStatus.valid && updateAppointmentForm.controls.appointmentStatus.touched">Please
+                        select correct appointment status</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-10 offset-sm-2">
+                    <button type="submit" class="btn btn-success" [disabled]="!updateAppointmentForm.valid">Update
+                        Appointment Status</button>
+                </div>
+            </div>
+        </form>
+        <div class="text-center mt-4 name">
+            <!-- Setting up message -->
+            <div class="alert alert-success "
+                *ngIf="isUpdateAppointmentFormSubmitted && isUpdateAppointmentSuccess && updateAppointmentSuccessMessage.length > 0">
+                <strong>{{updateAppointmentSuccessMessage}}</strong>
+            </div>
+
+            <div class="alert alert-danger "
+                *ngIf="isUpdateAppointmentFormSubmitted && !isUpdateAppointmentSuccess && updateAppointmentErrorMessage.length > 0">
+                <strong>{{updateAppointmentErrorMessage}}</strong>
+            </div>
         </div>
     </div>
 </div>

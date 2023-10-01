@@ -1,0 +1,84 @@
+<!-- Navbar -->
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand">Hospital Management</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/doctors/{{token}}">Doctors</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/patients/{{token}}">Patients</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/appointments/{{token}}">Appointments</a>
+                </li>
+            </ul>
+        </div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <!-- <button type="button" class="btn btn-outline-warning" routerLink="/savedoctor/{{token}}">Save
+                Doctor</button> -->
+            <button type="button" class="btn btn-outline-danger" routerLink="">Log Out</button>
+        </div>
+    </div>
+</nav>
+
+<!-- Get Appointment's List From Database -->
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+        <h1 class="display-6 text-center" *ngIf="appointmentsList.length > 0">Appointment's List</h1>
+        <table class="table table-hover table-striped">
+            <thead *ngIf="appointmentsList.length > 0">
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Patient Mobile No</th>
+                    <th>Doctor Assigned</th>
+                    <th>Appointment Date</th>
+                    <th>Appointment Status</th>
+                    <th>Operations</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let appointment of appointmentsList;">
+                    <td>{{appointment.patientName}}</td>
+                    <td>{{appointment.patientMobileNo}}</td>
+                    <td>{{appointment.doctorAssignedName}}</td>
+                    <td>{{appointment.appointmentDate}}</td>
+                    <td>{{appointment.appointmentStatus}}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary btn-sm">Update Status</button>
+                        <button type="button" class="btn btn-danger btn-sm" 
+                        (click)="deleteAppointmentById(appointment)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Delete Appointment -->
+    <div class="text-center mt-4 name">
+        <!-- Setting up message -->
+        <div class="alert alert-success "
+            *ngIf="isAppointmentDeleteSuccess && deleteAppointmentSuccessMessage.length > 0">
+            <strong>{{deleteAppointmentSuccessMessage}}</strong>
+        </div>
+
+        <div class="alert alert-danger "
+            *ngIf="!isAppointmentDeleteSuccess && deleteAppointmentErrorMessage.length > 0">
+            <strong>{{deleteAppointmentErrorMessage}}</strong>
+        </div>
+    </div>
+</div>
+
+<!-- If the Appointment's List is Empty -->
+<div class="alert alert-primary text-center" *ngIf="appointmentsList.length < 1">
+    <strong>There is no appointment in HM to display </strong>
+</div>
+
+<!-- In case there is any issue fetching appointment's List -->
+<div class="alert alert-danger text-center container-fluid" *ngIf="getAllAppointmentsErrorMessage">
+    <strong>{{getAllAppointmentsErrorMessage}}</strong>
+</div>

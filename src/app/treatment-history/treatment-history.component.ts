@@ -128,7 +128,7 @@ export class TreatmentHistoryComponent implements OnInit {
         );
     }
 
-    // this.updateTreatmentHistoryForm.reset();
+     this.updateTreatmentHistoryForm.reset();
   }
 
 }

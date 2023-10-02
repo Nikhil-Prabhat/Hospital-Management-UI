@@ -16,6 +16,9 @@
                 <li class="nav-item">
                     <a class="nav-link" routerLink="/appointments/{{token}}">Appointments</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/treatmenthistories/{{token}}">Treatment History</a>
+                </li>
             </ul>
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -46,7 +49,7 @@
                     <td>{{appointment.patientName}}</td>
                     <td>{{appointment.patientMobileNo}}</td>
                     <td>{{appointment.doctorAssignedName}}</td>
-                    <td>{{appointment.appointmentDate}}</td>
+                    <td>{{appointment.appointmentDate | date : 'fullDate'}}</td>
                     <td>{{appointment.appointmentStatus}}</td>
                     <td>
                         <button type="button" class="btn btn-primary btn-sm"

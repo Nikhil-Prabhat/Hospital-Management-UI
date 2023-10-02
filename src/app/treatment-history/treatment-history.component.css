@@ -1,0 +1,16 @@
+.btn {
+    margin: 2px;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.errorFont {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: red;
+}
+
+.message {
+    white-space: pre-wrap;
+}

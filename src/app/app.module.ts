@@ -16,6 +16,9 @@ import { PatientComponent } from './patient/patient.component';
 import { SavepatientComponent } from './patient/savepatient/savepatient.component';
 import { AppointmentsComponent } from './appointments/appointments.component';
 import { SaveappointmentComponent } from './appointments/saveappointment/saveappointment.component';
+import { TreatmentHistoryComponent } from './treatment-history/treatment-history.component';
+import { MaintainspacePipe } from './pipes/maintainspace.pipe';
+import { SavetreatmenthistoryComponent } from './treatment-history/savetreatmenthistory/savetreatmenthistory.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,10 @@ import { SaveappointmentComponent } from './appointments/saveappointment/saveapp
     PatientComponent,
     SavepatientComponent,
     AppointmentsComponent,
-    SaveappointmentComponent
+    SaveappointmentComponent,
+    TreatmentHistoryComponent,
+    MaintainspacePipe,
+    SavetreatmenthistoryComponent
   ],
   imports: [
     BrowserModule,

@@ -8,6 +8,7 @@ import { AppointmentResponse } from '../modals/hospital/AppointmentResponse.moda
 import { Patient } from '../modals/hospital/Patient.modal';
 import { BillResponse } from '../modals/hospital/BillResponse.modal';
 import { Appointment } from '../modals/hospital/Appointment.modal';
+import { TreatmentHistory } from '../modals/hospital/TreatmentHistory.modal';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,12 @@ export class HospitalService {
   DELETE_APPOINTMENT_BY_ID = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/deleteappointment/";
   UPDATE_APPOINTMENT_STATUS = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/updateappointmentstatus/";
   SAVE_APPOINTMENT = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/saveappointment";
+
+  /* Treatment Histories urls */
+  GET_ALL_TREATMENT_HISTORIES = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/getalltreatments";
+  DELETE_TREATMENT_HISTORY = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/deletetreatment/";
+  UPDATE_TREATMENT_HISTORY = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/updatetreatmentintreatmenthistory/";
+  SAVE_TREATMENT_HISTORY = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/savetreatmenthistory";
 
   BEARER_PREFIX = "Bearer ";
   AUTHORIZATION = "Authorization";
@@ -173,6 +180,32 @@ export class HospitalService {
   public saveAppointment(token: string, appointment: Appointment) {
     const headers = this.getHeaders(token);
     return this.httpClient.post(this.SAVE_APPOINTMENT, appointment, { headers, responseType: 'text' as 'json' });
+  }
+
+  /* Treatment Histories Endpoints */
+
+  /* Get All Treatment Histories */
+  public getAllTreatmentHistories(token: string) {
+    const headers = this.getHeaders(token);
+    return this.httpClient.get<TreatmentHistoryResponse[]>(this.GET_ALL_TREATMENT_HISTORIES, { headers });
+  }
+
+  /* Delete Treatment History */
+  public deleteTreatmentHistory(token: string, treatmentHistoryId: string) {
+    const headers = this.getHeaders(token);
+    return this.httpClient.delete(this.DELETE_TREATMENT_HISTORY + treatmentHistoryId, { headers, responseType: 'text' as 'json' });
+  }
+
+  /* Update Treatment History */
+  public updateTreatmentHistory(token: string, treatmentHistoryId: string, treatment: string) {
+    const headers = this.getHeaders(token);
+    return this.httpClient.put(this.UPDATE_TREATMENT_HISTORY + treatmentHistoryId + "/" + treatment, null, { headers, responseType: 'text' as 'json' })
+  }
+
+  /* Save Treatment History */
+  public saveTreatmentHistory(token: string, treatment: TreatmentHistory) {
+    const headers = this.getHeaders(token);
+    return this.httpClient.post(this.SAVE_TREATMENT_HISTORY, treatment, { headers, responseType: 'text' as 'json' })
   }
 
   private getHeaders(token: string) {

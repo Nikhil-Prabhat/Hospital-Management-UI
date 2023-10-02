@@ -9,6 +9,8 @@ import { PatientComponent } from "./patient/patient.component";
 import { SavepatientComponent } from "./patient/savepatient/savepatient.component";
 import { AppointmentsComponent } from "./appointments/appointments.component";
 import { SaveappointmentComponent } from "./appointments/saveappointment/saveappointment.component";
+import { TreatmentHistoryComponent } from "./treatment-history/treatment-history.component";
+import { SavetreatmenthistoryComponent } from "./treatment-history/savetreatmenthistory/savetreatmenthistory.component";
 
 const routes: Routes = [
     {
@@ -42,6 +44,14 @@ const routes: Routes = [
     },
     {
         path: 'saveappointment/:token', component: SaveappointmentComponent
+
+    },
+    {
+        path: 'treatmenthistories/:token', component: TreatmentHistoryComponent
+
+    },
+    {
+        path: 'savetreatmenthistory/:token', component: SavetreatmenthistoryComponent
 
     },
     {

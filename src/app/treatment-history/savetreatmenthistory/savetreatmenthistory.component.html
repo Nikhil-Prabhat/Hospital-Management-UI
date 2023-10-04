@@ -15,21 +15,27 @@
                                 <label for="patientName" class="form-label ">Patient Name</label>
                                 <select class="form-control" id="patientName" name="patientName" required ngModel>
                                     <option value="" disabled selected>Please choose correct patient</option>
-                                    <option *ngFor="let patient of patientList" [value]="patient.id">{{patient.name}}</option>
+                                    <option *ngFor="let patient of patientList" [value]="patient.id">{{patient.name}}
+                                    </option>
                                 </select>
                                 <span class="help-text errorFont"
                                     *ngIf="!saveTreatmentHistoryForm.controls.patientName.valid && saveTreatmentHistoryForm.controls.patientName.touched">Please
                                     enter patient name</span>
+                                <span class="help-text errorFont"
+                                    *ngIf="loadPatientMessage.length > 1">{{loadPatientMessage}}</span>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="doctorName" class="form-label ">Doctor Name</label>
                                 <select class="form-control" id="doctorName" name="doctorName" required ngModel>
                                     <option value="" disabled selected>Please choose correct doctor</option>
-                                    <option *ngFor="let doctor of doctorList" [value]="doctor.id">{{doctor.name}}</option>
+                                    <option *ngFor="let doctor of doctorList" [value]="doctor.id">{{doctor.name}}
+                                    </option>
                                 </select>
                                 <span class="help-text errorFont"
                                     *ngIf="!saveTreatmentHistoryForm.controls.doctorName.valid && saveTreatmentHistoryForm.controls.doctorName.touched">Please
                                     enter doctor name</span>
+                                <span class="help-text errorFont"
+                                    *ngIf="loadDoctorMessage.length > 1">{{loadDoctorMessage}}</span>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="briefDescription" class="form-label">Brief Description</label>
@@ -64,6 +70,7 @@
                 </div>
             </div>
         </div>
+
 
         <div class="text-center mt-4 name">
             <!-- Setting up message -->

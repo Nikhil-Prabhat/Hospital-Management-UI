@@ -51,6 +51,9 @@ export class HospitalService {
   UPDATE_TREATMENT_HISTORY = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/updatetreatmentintreatmenthistory/";
   SAVE_TREATMENT_HISTORY = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/savetreatmenthistory";
 
+  /* Bills urls */
+  GET_ALL_BILLS = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/getallbills";
+
   BEARER_PREFIX = "Bearer ";
   AUTHORIZATION = "Authorization";
 
@@ -206,6 +209,14 @@ export class HospitalService {
   public saveTreatmentHistory(token: string, treatment: TreatmentHistory) {
     const headers = this.getHeaders(token);
     return this.httpClient.post(this.SAVE_TREATMENT_HISTORY, treatment, { headers, responseType: 'text' as 'json' })
+  }
+
+  /* Bills Endpoints */
+
+  /* Get All Bills */
+  public getAllBills(token: string) {
+    const headers = this.getHeaders(token);
+    return this.httpClient.get<BillResponse[]>(this.GET_ALL_BILLS, { headers });
   }
 
   private getHeaders(token: string) {

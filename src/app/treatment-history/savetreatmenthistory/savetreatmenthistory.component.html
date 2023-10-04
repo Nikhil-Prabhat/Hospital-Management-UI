@@ -1,1 +1,86 @@
-<p>savetreatmenthistory works!</p>
+<div class="vh-100 d-flex justify-content-center align-items-center">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <div class="card bg-white">
+                    <div class="card-body p-5">
+
+                        <form class="mb-3 mt-md-4" (ngSubmit)="saveTreatmentHistory()"
+                            #saveTreatmentHistoryForm="ngForm">
+
+                            <h2 class="fw-bold mb-2 text-uppercase ">Save Treatment History</h2>
+                            <p class=" mb-5">Please enter treatment history details</p>
+
+                            <div class="mb-3 form-group">
+                                <label for="patientName" class="form-label ">Patient Name</label>
+                                <select class="form-control" id="patientName" name="patientName" required ngModel>
+                                    <option value="" disabled selected>Please choose correct patient</option>
+                                    <option *ngFor="let patient of patientList" [value]="patient.id">{{patient.name}}
+                                    </option>
+                                </select>
+                                <span class="help-text errorFont"
+                                    *ngIf="!saveTreatmentHistoryForm.controls.patientName.valid && saveTreatmentHistoryForm.controls.patientName.touched">Please
+                                    enter patient name</span>
+                                <span class="help-text errorFont"
+                                    *ngIf="loadPatientMessage.length > 1">{{loadPatientMessage}}</span>
+                            </div>
+                            <div class="mb-3 form-group">
+                                <label for="doctorName" class="form-label ">Doctor Name</label>
+                                <select class="form-control" id="doctorName" name="doctorName" required ngModel>
+                                    <option value="" disabled selected>Please choose correct doctor</option>
+                                    <option *ngFor="let doctor of doctorList" [value]="doctor.id">{{doctor.name}}
+                                    </option>
+                                </select>
+                                <span class="help-text errorFont"
+                                    *ngIf="!saveTreatmentHistoryForm.controls.doctorName.valid && saveTreatmentHistoryForm.controls.doctorName.touched">Please
+                                    enter doctor name</span>
+                                <span class="help-text errorFont"
+                                    *ngIf="loadDoctorMessage.length > 1">{{loadDoctorMessage}}</span>
+                            </div>
+                            <div class="mb-3 form-group">
+                                <label for="briefDescription" class="form-label">Brief Description</label>
+                                <input type="text" class="form-control" id="briefDescription" name="briefDescription"
+                                    placeholder="Please enter brief description" required ngModel />
+                                <span class="help-text errorFont"
+                                    *ngIf="!saveTreatmentHistoryForm.controls.briefDescription.valid && saveTreatmentHistoryForm.controls.briefDescription.touched">Please
+                                    enter brief description</span>
+                            </div>
+                            <div class="mb-3 form-group">
+                                <label for="symptoms" class="form-label">Symptoms</label>
+                                <input type="text" class="form-control" id="symptoms" name="symptoms"
+                                    placeholder="Please enter symptoms" required ngModel />
+                                <span class="help-text errorFont"
+                                    *ngIf="!saveTreatmentHistoryForm.controls.symptoms.valid && saveTreatmentHistoryForm.controls.symptoms.touched">Please
+                                    enter symptoms</span>
+                            </div>
+                            <div class="mb-3 form-group">
+                                <label for="treatment" class="form-label">Treatment</label>
+                                <input type="text" class="form-control" id="treatment" name="treatment"
+                                    placeholder="Please enter treatment" required ngModel />
+                                <span class="help-text errorFont"
+                                    *ngIf="!saveTreatmentHistoryForm.controls.treatment.valid && saveTreatmentHistoryForm.controls.treatment.touched">Please
+                                    enter treatment</span>
+                            </div>
+                            <div class="d-grid">
+                                <button class="btn btn-outline-dark" type="submit"
+                                    [disabled]="!saveTreatmentHistoryForm.valid">Save Treatment History</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="text-center mt-4 name">
+            <!-- Setting up message -->
+            <div class="alert alert-success " *ngIf="isSubmitted && isSaveTreatmentHistorySuccess">
+                <strong>{{saveTreatmentHistoryMessage}}</strong>
+            </div>
+
+            <div class="alert alert-danger " *ngIf="isSubmitted && !isSaveTreatmentHistorySuccess">
+                <strong>{{saveTreatmentHistoryMessage}}</strong>
+            </div>
+        </div>
+    </div>
+</div>

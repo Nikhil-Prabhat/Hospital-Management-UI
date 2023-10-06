@@ -11,6 +11,7 @@ import { AppointmentsComponent } from "./appointments/appointments.component";
 import { SaveappointmentComponent } from "./appointments/saveappointment/saveappointment.component";
 import { TreatmentHistoryComponent } from "./treatment-history/treatment-history.component";
 import { SavetreatmenthistoryComponent } from "./treatment-history/savetreatmenthistory/savetreatmenthistory.component";
+import { BillComponent } from "./bill/bill.component";
 
 const routes: Routes = [
     {
@@ -52,6 +53,14 @@ const routes: Routes = [
     },
     {
         path: 'savetreatmenthistory/:token', component: SavetreatmenthistoryComponent
+
+    },
+    {
+        path: 'bills/:token', component: BillComponent
+
+    },
+    {
+        path: 'savebill/:token', component: BillComponent
 
     },
     {

@@ -31,3 +31,118 @@
         </div>
     </div>
 </nav>
+
+<!-- Get Bills's List From Database -->
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+        <h1 class="display-6 text-center" *ngIf="billsList.length > 0">Bill's List</h1>
+        <table class="table table-hover table-striped">
+            <thead *ngIf="billsList.length > 0">
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Mobile No</th>
+                    <th>Treatment Status</th>
+                    <th>Consultation Fee (INR)</th>
+                    <th>Pharmacy Fee (INR)</th>
+                    <th>Hospitalization Fee (INR)</th>
+                    <th>Total Amount (INR)</th>
+                    <th>Operations</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let bill of billsList;">
+                    <td>{{bill.patient.name}}</td>
+                    <td>{{bill.patient.mobileNo}}</td>
+                    <td>{{bill.patient.treatmentStatus}}</td>
+                    <td>{{bill.consultationFee}}</td>
+                    <td>{{bill.pharmacyFee}}</td>
+                    <td>{{bill.hospitalizationFee}}</td>
+                    <td>{{bill.totalAmountOfBill}}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary btn-sm"
+                            (click)="updateBillWithId(bill)">Update</button>
+                        <button type="button" class="btn btn-danger btn-sm" (click)="deleteBill(bill)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Delete Bill -->
+    <div class="text-center mt-4 name">
+        <!-- Setting up message -->
+        <div class="alert alert-success " *ngIf="isDeleteBillSuccess && deleteBillSuccessMessage.length > 0">
+            <strong>{{deleteBillSuccessMessage}}</strong>
+        </div>
+
+        <div class="alert alert-danger " *ngIf="!isDeleteBillSuccess && deleteBillErrorMessage.length > 0">
+            <strong>{{deleteBillErrorMessage}}</strong>
+        </div>
+    </div>
+
+    <!-- Update Bill -->
+    <div class="container-fluid" *ngIf="isUpdateBill">
+        <h1 class="display-6 text-center">Update Bill For Patient : {{currentPatientForBill}}</h1>
+        <form (ngSubmit)="updateBill()" #updateBillForm="ngForm">
+
+            <div class="row mb-3">
+                <label for="consultationFee" class="col-sm-2 col-form-label bold">Consultation Fee </label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" id="consultationFee" name="consultationFee"
+                        placeholder="Plz Enter Consultation Fee" required ngModel>
+                    <span class="help-text errorFont"
+                        *ngIf="!updateBillForm.controls.consultationFee.valid && updateBillForm.controls.consultationFee.touched">Please
+                        enter consultation fee</span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="pharmacyFee" class="col-sm-2 col-form-label bold">Pharmacy Fee </label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" id="pharmacyFee" name="pharmacyFee"
+                        placeholder="Plz Enter Consultation Fee" required ngModel>
+                    <span class="help-text errorFont"
+                        *ngIf="!updateBillForm.controls.pharmacyFee.valid && updateBillForm.controls.pharmacyFee.touched">Please
+                        enter pharmacy fee</span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="hospitalizationFee" class="col-sm-2 col-form-label bold">Hospitalization Fee </label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" id="hospitalizationFee" name="hospitalizationFee"
+                        placeholder="Plz Enter Consultation Fee" required ngModel>
+                    <span class="help-text errorFont"
+                        *ngIf="!updateBillForm.controls.hospitalizationFee.valid && updateBillForm.controls.hospitalizationFee.touched">Please
+                        enter hospitalization fee</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10 offset-sm-2">
+                    <button type="submit" class="btn btn-success" [disabled]="!updateBillForm.valid">Update
+                        Bill</button>
+                </div>
+            </div>
+        </form>
+        <div class="text-center mt-4 name">
+            <!-- Setting up message -->
+            <div class="alert alert-success "
+                *ngIf="isUpdateBillFormSubmitted && isUpdateBillSuccess && updateBillSuccessMessage.length > 0">
+                <strong>{{updateBillSuccessMessage}}</strong>
+            </div>
+
+            <div class="alert alert-danger "
+                *ngIf="isUpdateBillFormSubmitted && !isUpdateBillSuccess && updateBillErrorMessage.length > 0">
+                <strong>{{updateBillErrorMessage}}</strong>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- If the Bill's List is Empty -->
+<div class="alert alert-primary text-center" *ngIf="billsList.length < 1">
+    <strong>There is no bill in HM to display </strong>
+</div>
+
+<!-- In case there is any issue fetching bill's List -->
+<div class="alert alert-danger text-center container-fluid" *ngIf="getAllBillsErrorMessage">
+    <strong>{{getAllBillsErrorMessage}}</strong>
+</div>

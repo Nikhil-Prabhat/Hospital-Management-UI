@@ -9,6 +9,7 @@ import { Patient } from '../modals/hospital/Patient.modal';
 import { BillResponse } from '../modals/hospital/BillResponse.modal';
 import { Appointment } from '../modals/hospital/Appointment.modal';
 import { TreatmentHistory } from '../modals/hospital/TreatmentHistory.modal';
+import { Bill } from '../modals/hospital/Bills.modal';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +54,9 @@ export class HospitalService {
 
   /* Bills urls */
   GET_ALL_BILLS = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/getallbills";
+  UPDATE_BILL = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/updatebill/";
+  DELETE_BILL = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/deletebill/"
+  TOTAL_BILL_OF_HM = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/gettotalbillofhospital";
 
   BEARER_PREFIX = "Bearer ";
   AUTHORIZATION = "Authorization";
@@ -217,6 +221,24 @@ export class HospitalService {
   public getAllBills(token: string) {
     const headers = this.getHeaders(token);
     return this.httpClient.get<BillResponse[]>(this.GET_ALL_BILLS, { headers });
+  }
+
+  /* Update Bill */
+  public updateBill(token: string, idOfBill: string, bill: Bill) {
+    const headers = this.getHeaders(token);
+    return this.httpClient.put(this.UPDATE_BILL + idOfBill, bill, { headers, responseType: 'text' as 'json' });
+  }
+
+  /*Delete Bill */
+  public deleteBill(token: string, idOfBill: string) {
+    const headers = this.getHeaders(token);
+    return this.httpClient.delete(this.DELETE_BILL + idOfBill, { headers, responseType: 'text' as 'json' })
+  }
+
+  /*Get Total Bill Of HM */
+  public getTotalBillOfHM(token: string) {
+    const headers = this.getHeaders(token);
+    return this.httpClient.get(this.TOTAL_BILL_OF_HM , { headers, responseType: 'text' as 'json' });
   }
 
   private getHeaders(token: string) {

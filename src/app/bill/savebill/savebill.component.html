@@ -1,1 +1,73 @@
-<p>savebill works!</p>
+<div class="vh-100 d-flex justify-content-center align-items-center">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <div class="card bg-white">
+                    <div class="card-body p-5">
+
+                        <form class="mb-3 mt-md-4" (ngSubmit)="saveBill()" #saveBillForm="ngForm">
+
+                            <h2 class="fw-bold mb-2 text-uppercase ">Save Bill</h2>
+                            <p class=" mb-5">Please enter bill details</p>
+
+                            <div class="mb-3 form-group">
+                                <label for="patientName" class="form-label ">Patient Name</label>
+                                <select class="form-control" id="patientName" name="patientName" required ngModel>
+                                    <option value="" disabled selected>Please choose correct patient</option>
+                                    <option *ngFor="let patient of patientList" [value]="patient.id">{{patient.name}}
+                                    </option>
+                                </select>
+                                <span class="help-text errorFont"
+                                    *ngIf="!saveBillForm.controls.patientName.valid && saveBillForm.controls.patientName.touched">Please
+                                    enter patient name</span>
+                                <span class="help-text errorFont"
+                                    *ngIf="loadPatientMessage.length > 1">{{loadPatientMessage}}</span>
+                            </div>
+                            <div class="mb-3 form-group">
+                                <label for="consultationFee" class="form-label">Consultation Fee</label>
+                                <input type="number" class="form-control" id="consultationFee" name="consultationFee"
+                                    placeholder="Please enter consultation fee" required ngModel />
+                                <span class="help-text errorFont"
+                                    *ngIf="!saveBillForm.controls.consultationFee.valid && saveBillForm.controls.consultationFee.touched">Please
+                                    enter consultation fee</span>
+                            </div>
+                            <div class="mb-3 form-group">
+                                <label for="pharmacyFee" class="form-label">Pharmacy Fee</label>
+                                <input type="number" class="form-control" id="pharmacyFee" name="pharmacyFee"
+                                    placeholder="Please enter pharmacy fee" required ngModel />
+                                <span class="help-text errorFont"
+                                    *ngIf="!saveBillForm.controls.pharmacyFee.valid && saveBillForm.controls.pharmacyFee.touched">Please
+                                    enter pharmacy fee</span>
+                            </div>
+                            <div class="mb-3 form-group">
+                                <label for="hospitalizationFee" class="form-label">Hospitalization Fee</label>
+                                <input type="number" class="form-control" id="hospitalizationFee"
+                                    name="hospitalizationFee" placeholder="Please enter consultation fee" required
+                                    ngModel />
+                                <span class="help-text errorFont"
+                                    *ngIf="!saveBillForm.controls.hospitalizationFee.valid && saveBillForm.controls.hospitalizationFee.touched">Please
+                                    enter hospitalization fee</span>
+                            </div>
+                            <div class="d-grid">
+                                <button class="btn btn-outline-dark" type="submit" [disabled]="!saveBillForm.valid">Save
+                                    Bill</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="text-center mt-4 name">
+            <!-- Setting up message -->
+            <div class="alert alert-success " *ngIf="isSubmitted && isSaveBillSuccess">
+                <strong>{{saveBillMessage}}</strong>
+            </div>
+
+            <div class="alert alert-danger " *ngIf="isSubmitted && !isSaveBillSuccess">
+                <strong>{{saveBillMessage}}</strong>
+            </div>
+        </div>
+    </div>
+</div>

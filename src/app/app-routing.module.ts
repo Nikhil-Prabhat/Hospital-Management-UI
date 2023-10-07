@@ -12,6 +12,7 @@ import { SaveappointmentComponent } from "./appointments/saveappointment/saveapp
 import { TreatmentHistoryComponent } from "./treatment-history/treatment-history.component";
 import { SavetreatmenthistoryComponent } from "./treatment-history/savetreatmenthistory/savetreatmenthistory.component";
 import { BillComponent } from "./bill/bill.component";
+import { SavebillComponent } from "./bill/savebill/savebill.component";
 
 const routes: Routes = [
     {
@@ -60,7 +61,7 @@ const routes: Routes = [
 
     },
     {
-        path: 'savebill/:token', component: BillComponent
+        path: 'savebill/:token', component: SavebillComponent
 
     },
     {

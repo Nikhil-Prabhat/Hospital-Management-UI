@@ -57,6 +57,7 @@ export class HospitalService {
   UPDATE_BILL = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/updatebill/";
   DELETE_BILL = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/deletebill/"
   TOTAL_BILL_OF_HM = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/gettotalbillofhospital";
+  SAVE_BILL = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/savebill";
 
   BEARER_PREFIX = "Bearer ";
   AUTHORIZATION = "Authorization";
@@ -238,7 +239,13 @@ export class HospitalService {
   /*Get Total Bill Of HM */
   public getTotalBillOfHM(token: string) {
     const headers = this.getHeaders(token);
-    return this.httpClient.get(this.TOTAL_BILL_OF_HM , { headers, responseType: 'text' as 'json' });
+    return this.httpClient.get(this.TOTAL_BILL_OF_HM, { headers, responseType: 'text' as 'json' });
+  }
+
+  /* Save Bill */
+  public saveBill(token: string, bill: Bill) {
+    const headers = this.getHeaders(token);
+    return this.httpClient.post(this.SAVE_BILL, bill, { headers, responseType: 'text' as 'json' });
   }
 
   private getHeaders(token: string) {

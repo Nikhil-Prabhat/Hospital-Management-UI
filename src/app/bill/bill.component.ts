@@ -4,6 +4,7 @@ import { HospitalService } from '../service/hospital.service';
 import { BillResponse } from '../modals/hospital/BillResponse.modal';
 import { NgForm } from '@angular/forms';
 import { Bill } from '../modals/hospital/Bills.modal';
+import { PatientResponse } from '../modals/hospital/PatientResponse.modal';
 
 @Component({
   selector: 'app-bill',
@@ -78,7 +79,8 @@ export class BillComponent implements OnInit {
     var consultationFee = this.updateBillForm.value.consultationFee;
     var pharmacyFee = this.updateBillForm.value.pharmacyFee;
     var hospitalizationFee = this.updateBillForm.value.hospitalizationFee;
-    var bill = new Bill(consultationFee, pharmacyFee, hospitalizationFee);
+    var patient = new PatientResponse("", "", "", "", "", "NOT_STARTED");
+    var bill = new Bill(patient, consultationFee, pharmacyFee, hospitalizationFee);
 
     if (this.isUpdateBill) {
       this.hospitalService.updateBill(this.token, this.updateBillId, bill)
@@ -96,7 +98,7 @@ export class BillComponent implements OnInit {
             }, 2000);
           }, (error: any) => {
             this.isUpdateBillSuccess = false;
-            this.updateBillErrorMessage = this.UPDATE_BILL_UNSUCCESSFUL + JSON.stringify(error.error);
+            this.updateBillErrorMessage = this.UPDATE_BILL_UNSUCCESSFUL + JSON.stringify(error);
           }
         );
     }

@@ -22,7 +22,7 @@ const routes: Routes = [
         path: 'signup', component: SignupComponent
     },
     {
-        path: 'dashboard/:token/:username', component: HospitalDashboardComponent
+        path: 'dashboard/:token/:username/:role', component: HospitalDashboardComponent
     },
     {
         path: 'doctors/:token', component: DoctorComponent

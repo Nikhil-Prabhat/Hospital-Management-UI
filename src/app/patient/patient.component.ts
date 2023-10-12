@@ -8,6 +8,7 @@ import { TreatmentHistoryResponse } from '../modals/hospital/TreatmentHistoryRes
 import { DoctorResponse } from '../modals/hospital/DoctorResponse.modal';
 import { NgForm } from '@angular/forms';
 import { Patient } from '../modals/hospital/Patient.modal';
+import { SecurityServiceService } from '../service/security-service.service';
 
 @Component({
   selector: 'app-patient',
@@ -53,6 +54,8 @@ export class PatientComponent implements OnInit {
   assignPatientId !: string;
   assignDoctorId!: string;
   assignDoctorToPatientMessage !: string;
+  currentRole !: string;
+  userLogin !: string;
 
   isGetBillForAPatient: boolean = false;
   isGetAllAppointmentsForAPatient: boolean = false;
@@ -65,7 +68,7 @@ export class PatientComponent implements OnInit {
   isAssignDoctorToPatientSuccess: boolean = false;
 
 
-  constructor(private hospitalService: HospitalService, private activatedRoute: ActivatedRoute) { }
+  constructor(private securityService: SecurityServiceService, private hospitalService: HospitalService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.getAllPatientsErrorMessage = "";
@@ -83,6 +86,7 @@ export class PatientComponent implements OnInit {
     this.assignPatientId = "";
     this.assignDoctorToPatientMessage = "";
 
+
     this.isGetBillForAPatient = false;
     this.isGetAllAppointmentsForAPatient = false;
     this.isGetAllTreatmentHistoriesForAPatient = false;
@@ -94,7 +98,23 @@ export class PatientComponent implements OnInit {
     this.isAssignDoctorToPatientSuccess = false;
 
     this.token = this.activatedRoute.snapshot.params['token'];
+    this.currentRole = this.activatedRoute.snapshot.params['role'];
+    
+    this.getCurrentUser();
     this.getAllPatientsList();
+  }
+
+  /* Find current user */
+  public getCurrentUser() {
+    this.securityService.validate(this.token)
+      .subscribe(
+        tokenValidationResponse => {
+          this.userLogin = tokenValidationResponse.username;
+          console.log(this.userLogin);
+        }, (error: any) => {
+          console.log(JSON.stringify(error));
+        }
+      );
   }
 
   /* Get All Patient's List */
@@ -290,11 +310,11 @@ export class PatientComponent implements OnInit {
         }
       );
 
-      setTimeout(
-        () => {
-            this.assignDoctorToPatientMessage = "";
-        }, 2000
-      );
+    setTimeout(
+      () => {
+        this.assignDoctorToPatientMessage = "";
+      }, 2000
+    );
   }
 
 }

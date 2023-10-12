@@ -30,6 +30,7 @@ export class BillComponent implements OnInit {
   currentPatientForBill: string = "";
   deleteBillSuccessMessage: string = "";
   deleteBillErrorMessage: string = "";
+  currentRole !: string;
 
   isUpdateBill: boolean = false;
   isUpdateBillSuccess: boolean = false;
@@ -53,6 +54,7 @@ export class BillComponent implements OnInit {
     this.deleteBillErrorMessage = "";
 
     this.token = this.activatedRoute.snapshot.params['token'];
+    this.currentRole = this.activatedRoute.snapshot.params['role'];
     this.getAllBills();
     this.getTotalBillOfHM();
   }

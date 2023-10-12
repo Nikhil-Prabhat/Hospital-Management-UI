@@ -43,7 +43,13 @@ export class SecurityComponent implements OnInit {
           // In case of success response
           this.isLoginSuccess = true;
           this.loginMessage = this.LOGIN_SUCCESSFUL_MSG + tokenWithUser.username + " !";
-          this.routeToDashboardPage(tokenWithUser.token, tokenWithUser.username);
+          this.securityService.validate(tokenWithUser.token)
+            .subscribe(
+              tokenValidationResponse => {
+                this.routeToDashboardPage(tokenWithUser.token, tokenWithUser.username, tokenValidationResponse.role);
+              }
+            );
+
         }, (error: any) => {
           // In case of error response
           this.isLoginSuccess = false;
@@ -55,9 +61,9 @@ export class SecurityComponent implements OnInit {
   }
 
   /* Route to Dashboard Page */
-  public routeToDashboardPage(token: string, username: string) {
+  public routeToDashboardPage(token: string, username: string, role: string) {
     setTimeout(() => {
-      this.router.navigate(['/dashboard', token, username])
+      this.router.navigate(['/dashboard', token, username, role])
     }, 2000);
   }
 

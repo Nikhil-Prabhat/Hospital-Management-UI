@@ -27,11 +27,14 @@ export class SavetreatmenthistoryComponent implements OnInit {
   token !: string;
   loadPatientMessage: string = "";
   loadDoctorMessage: string = "";
+  currentRole !: string;
 
   constructor(private hospitalService: HospitalService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.token = this.activatedRoute.snapshot.params['token'];
+    this.currentRole = this.activatedRoute.snapshot.params['role'];
+
     this.isSubmitted = false;
     this.isSaveTreatmentHistorySuccess = false;
 
@@ -78,7 +81,7 @@ export class SavetreatmenthistoryComponent implements OnInit {
   /* Route to Treatment History Page */
   public routeToTreatmentHistoryPage(token: string) {
     setTimeout(() => {
-      this.router.navigate(['/treatmenthistories', token])
+      this.router.navigate(['/treatmenthistories', token, this.currentRole])
     }, 2000);
   }
 

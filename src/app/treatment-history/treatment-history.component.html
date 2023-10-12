@@ -8,24 +8,30 @@
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/doctors/{{token}}">Doctors</a>
+                    <a class="nav-link" routerLink="/doctors/{{token}}/{{currentRole}}"
+                        *ngIf="currentRole === 'ROLE_ADMIN' || currentRole === 'ROLE_DOCTOR'">Doctors</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/patients/{{token}}">Patients</a>
+                    <a class="nav-link" routerLink="/patients/{{token}}/{{currentRole}}"
+                        *ngIf="currentRole === 'ROLE_ADMIN' || currentRole === 'ROLE_USER'">Patients</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/appointments/{{token}}">Appointments</a>
+                    <a class="nav-link" routerLink="/appointments/{{token}}/{{currentRole}}"
+                        *ngIf="currentRole === 'ROLE_ADMIN'">Appointments</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/treatmenthistories/{{token}}">Treatment History</a>
+                    <a class="nav-link" routerLink="/treatmenthistories/{{token}}/{{currentRole}}"
+                        *ngIf="currentRole === 'ROLE_ADMIN'">Treatment History</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/bills/{{token}}">Bills</a>
+                    <a class="nav-link" routerLink="/bills/{{token}}/{{currentRole}}"
+                        *ngIf="currentRole === 'ROLE_ADMIN'">Bills</a>
                 </li>
             </ul>
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button type="button" class="btn btn-outline-warning" routerLink="/savetreatmenthistory/{{token}}">Save
+            <button type="button" class="btn btn-outline-warning"
+                routerLink="/savetreatmenthistory/{{token}}/{{currentRole}}" *ngIf="currentRole === 'ROLE_ADMIN'">Save
                 Treatment History</button>
             <button type="button" class="btn btn-outline-danger" routerLink="">Log Out</button>
         </div>
@@ -57,10 +63,10 @@
                     <td>{{treatmentHistory.patient.briefProblemDescription}}</td>
                     <td>{{treatmentHistory.patient.treatmentStatus}}</td>
                     <td>{{treatmentHistory.symptoms}}</td>
-                     <td>{{treatmentHistory.treatment}}</td>
+                    <td>{{treatmentHistory.treatment}}</td>
                     <td>
                         <button type="button" class="btn btn-primary btn-sm"
-                        (click)="updateTreatmentWithId(treatmentHistory)">Update Treatment</button>
+                            (click)="updateTreatmentWithId(treatmentHistory)">Update Treatment</button>
                         <button type="button" class="btn btn-danger btn-sm"
                             (click)="deleteTreatmentHistory(treatmentHistory)">Delete</button>
                     </td>
@@ -90,7 +96,8 @@
             <div class="row mb-3">
                 <label for="treatment" class="col-sm-2 col-form-label bold">Treatment</label>
                 <div class="col-sm-10">
-                    <textarea class="form-control" id="treatment" name="treatment" rows="4" cols="50" required ngModel ></textarea>
+                    <textarea class="form-control" id="treatment" name="treatment" rows="4" cols="50" required
+                        ngModel></textarea>
                     <span class="help-text errorFont"
                         *ngIf="!updateTreatmentHistoryForm.controls.treatment.valid && updateTreatmentHistoryForm.controls.treatment.touched">Please
                         enter treatment for patient</span>

@@ -19,11 +19,14 @@ export class SavedoctorComponent implements OnInit {
   isSubmitted !: boolean;
   isSaveDoctorSuccess !: boolean;
   token !: string;
+  currentRole !: string;
 
   constructor(private hospitalService: HospitalService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.token = this.activatedRoute.snapshot.params['token'];
+    this.currentRole = this.activatedRoute.snapshot.params['role'];
+
     this.isSubmitted = false;
     this.isSaveDoctorSuccess = false;
   }
@@ -58,7 +61,7 @@ export class SavedoctorComponent implements OnInit {
   /* Route to Doctor's Page */
   public routeToDoctorPage(token: string) {
     setTimeout(() => {
-      this.router.navigate(['/doctors', token])
+      this.router.navigate(['/doctors', token, this.currentRole])
     }, 2000);
   }
 

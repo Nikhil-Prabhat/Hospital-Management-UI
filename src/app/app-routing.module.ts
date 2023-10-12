@@ -22,46 +22,46 @@ const routes: Routes = [
         path: 'signup', component: SignupComponent
     },
     {
-        path: 'dashboard/:token/:username', component: HospitalDashboardComponent
+        path: 'dashboard/:token/:username/:role', component: HospitalDashboardComponent
     },
     {
-        path: 'doctors/:token', component: DoctorComponent
+        path: 'doctors/:token/:role', component: DoctorComponent
 
     },
     {
-        path: 'savedoctor/:token', component: SavedoctorComponent
+        path: 'savedoctor/:token/:role', component: SavedoctorComponent
 
     },
     {
-        path: 'patients/:token', component: PatientComponent
+        path: 'patients/:token/:role', component: PatientComponent
 
     },
     {
-        path: 'savepatient/:token', component: SavepatientComponent
+        path: 'savepatient/:token/:role', component: SavepatientComponent
 
     },
     {
-        path: 'appointments/:token', component: AppointmentsComponent
+        path: 'appointments/:token/:role', component: AppointmentsComponent
 
     },
     {
-        path: 'saveappointment/:token', component: SaveappointmentComponent
+        path: 'saveappointment/:token/:role', component: SaveappointmentComponent
 
     },
     {
-        path: 'treatmenthistories/:token', component: TreatmentHistoryComponent
+        path: 'treatmenthistories/:token/:role', component: TreatmentHistoryComponent
 
     },
     {
-        path: 'savetreatmenthistory/:token', component: SavetreatmenthistoryComponent
+        path: 'savetreatmenthistory/:token/:role', component: SavetreatmenthistoryComponent
 
     },
     {
-        path: 'bills/:token', component: BillComponent
+        path: 'bills/:token/:role', component: BillComponent
 
     },
     {
-        path: 'savebill/:token', component: SavebillComponent
+        path: 'savebill/:token/:role', component: SavebillComponent
 
     },
     {

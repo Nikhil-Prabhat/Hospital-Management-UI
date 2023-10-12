@@ -20,11 +20,14 @@ export class SaveappointmentComponent implements OnInit {
   isSaveAppointmentSuccess !: boolean;
   token !: string;
   newAppointmentStatus = "NOT_ACCEPTED";
+  currentRole !: string;
 
   constructor(private hospitalService: HospitalService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.token = this.activatedRoute.snapshot.params['token'];
+    this.currentRole = this.activatedRoute.snapshot.params['role'];
+
     this.isSubmitted = false;
     this.isSaveAppointmentSuccess = false;
   }
@@ -61,7 +64,7 @@ export class SaveappointmentComponent implements OnInit {
   /* Route to Appointment Page */
   public routeToAppointmentPage(token: string) {
     setTimeout(() => {
-      this.router.navigate(['appointments', token]);
+      this.router.navigate(['appointments', token, this.currentRole]);
     }, 2000);
   }
 

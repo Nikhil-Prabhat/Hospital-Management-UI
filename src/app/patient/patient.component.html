@@ -8,24 +8,30 @@
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/doctors/{{token}}">Doctors</a>
+                    <a class="nav-link" routerLink="/doctors/{{token}}/{{currentRole}}"
+                        *ngIf="currentRole === 'ROLE_ADMIN' || currentRole === 'ROLE_DOCTOR'">Doctors</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/patients/{{token}}">Patients</a>
+                    <a class="nav-link" routerLink="/patients/{{token}}/{{currentRole}}"
+                        *ngIf="currentRole === 'ROLE_ADMIN' || currentRole === 'ROLE_USER'">Patients</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/appointments/{{token}}">Appointments</a>
+                    <a class="nav-link" routerLink="/appointments/{{token}}/{{currentRole}}"
+                        *ngIf="currentRole === 'ROLE_ADMIN'">Appointments</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/treatmenthistories/{{token}}">Treatment History</a>
+                    <a class="nav-link" routerLink="/treatmenthistories/{{token}}/{{currentRole}}"
+                        *ngIf="currentRole === 'ROLE_ADMIN'">Treatment History</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/bills/{{token}}">Bills</a>
+                    <a class="nav-link" routerLink="/bills/{{token}}/{{currentRole}}"
+                        *ngIf="currentRole === 'ROLE_ADMIN'">Bills</a>
                 </li>
             </ul>
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button type="button" class="btn btn-outline-warning" routerLink="/savepatient/{{token}}">Save
+            <button type="button" class="btn btn-outline-warning" routerLink="/savepatient/{{token}}/{{currentRole}}"
+                *ngIf="currentRole === 'ROLE_ADMIN'">Save
                 Patient</button>
             <button type="button" class="btn btn-outline-danger" routerLink="">Log Out</button>
         </div>
@@ -49,12 +55,12 @@
             </thead>
             <tbody>
                 <tr *ngFor="let patient of patientsList;">
-                    <td>{{patient.name}}</td>
-                    <td>{{patient.mobileNo}}</td>
-                    <td>{{patient.address}}</td>
-                    <td>{{patient.briefProblemDescription}}</td>
-                    <td>{{patient.treatmentStatus}}</td>
-                    <td>
+                    <td *ngIf="currentRole === 'ROLE_ADMIN' || (currentRole === 'ROLE_USER' && userLogin === patient.name) ">{{patient.name}}</td>
+                    <td *ngIf="currentRole === 'ROLE_ADMIN' || (currentRole === 'ROLE_USER' && userLogin === patient.name) ">{{patient.mobileNo}}</td>
+                    <td *ngIf="currentRole === 'ROLE_ADMIN' || (currentRole === 'ROLE_USER' && userLogin === patient.name) ">{{patient.address}}</td>
+                    <td *ngIf="currentRole === 'ROLE_ADMIN' || (currentRole === 'ROLE_USER' && userLogin === patient.name) ">{{patient.briefProblemDescription}}</td>
+                    <td *ngIf="currentRole === 'ROLE_ADMIN' || (currentRole === 'ROLE_USER' && userLogin === patient.name) ">{{patient.treatmentStatus}}</td>
+                    <td *ngIf="currentRole === 'ROLE_ADMIN' || (currentRole === 'ROLE_USER' && userLogin === patient.name) ">
                         <button type="button" class="btn btn-success btn-sm"
                             (click)="getAllDoctorsForAPatient(patient)">Doctor</button>
                         <button type="button" class="btn btn-warning btn-sm"
@@ -64,12 +70,15 @@
                         <button type="button" class="btn btn-info btn-sm"
                             (click)="getTreatmentHistoriesForAPatient(patient)">Treatment Histories</button>
                         <button type="button" class="btn btn-secondary btn-sm"
-                            (click)="updatePatientWithId(patient)">Update</button>
+                            (click)="updatePatientWithId(patient)"
+                            *ngIf="currentRole === 'ROLE_ADMIN'">Update</button>
                         <button type="button" class="btn btn-danger btn-sm"
-                            (click)="deletePatient(patient)">Delete</button>
+                            (click)="deletePatient(patient)"
+                            *ngIf="currentRole === 'ROLE_ADMIN'">Delete</button>
                         <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
                             data-bs-target="#assigndoctortopatient"
-                            (click)="getAllDoctorsListForPatientMapping(patient)">Assign Doctor</button>
+                            (click)="getAllDoctorsListForPatientMapping(patient)"
+                            *ngIf="currentRole === 'ROLE_ADMIN'">Assign Doctor</button>
                     </td>
                 </tr>
             </tbody>

@@ -8,24 +8,30 @@
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/doctors/{{token}}">Doctors</a>
+                    <a class="nav-link" routerLink="/doctors/{{token}}/{{currentRole}}"
+                        *ngIf="currentRole === 'ROLE_ADMIN' || currentRole === 'ROLE_DOCTOR'">Doctors</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/patients/{{token}}">Patients</a>
+                    <a class="nav-link" routerLink="/patients/{{token}}/{{currentRole}}"
+                        *ngIf="currentRole === 'ROLE_ADMIN' || currentRole === 'ROLE_USER'">Patients</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/appointments/{{token}}">Appointments</a>
+                    <a class="nav-link" routerLink="/appointments/{{token}}/{{currentRole}}"
+                        *ngIf="currentRole === 'ROLE_ADMIN'">Appointments</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/treatmenthistories/{{token}}">Treatment History</a>
+                    <a class="nav-link" routerLink="/treatmenthistories/{{token}}/{{currentRole}}"
+                        *ngIf="currentRole === 'ROLE_ADMIN'">Treatment History</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/bills/{{token}}">Bills</a>
+                    <a class="nav-link" routerLink="/bills/{{token}}/{{currentRole}}"
+                        *ngIf="currentRole === 'ROLE_ADMIN'">Bills</a>
                 </li>
             </ul>
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button type="button" class="btn btn-outline-warning" routerLink="/savedoctor/{{token}}">Save
+            <button type="button" class="btn btn-outline-warning" routerLink="/savedoctor/{{token}}/{{currentRole}}"
+                *ngIf="currentRole === 'ROLE_ADMIN'">Save
                 Doctor</button>
             <button type="button" class="btn btn-outline-danger" routerLink="">Log Out</button>
         </div>
@@ -48,22 +54,22 @@
             </thead>
             <tbody>
                 <tr *ngFor="let doctor of doctorsList;">
-                    <td>{{doctor.name}}</td>
-                    <td>{{doctor.specialisation}}</td>
-                    <td>{{doctor.mobileNo}}</td>
-                    <td>{{doctor.address}}</td>
-                    <td>
-                        <button type="button" class="btn btn-warning btn-sm"
-                            (click)="getAllPatientsForADoctor(doctor)">Patients</button>
-                        <button type="button" class="btn btn-dark btn-sm"
-                            (click)="getAllAppointmentsForADoctor(doctor)">Appointments</button>
-                        <button type="button" class="btn btn-info btn-sm"
-                            (click)="getAllTreatmentHistoriesForADoctor(doctor)">Treatment Histories</button>
-                        <button type="button" class="btn btn-secondary btn-sm"
-                            (click)="updateDoctorWithId(doctor)">Update</button>
-                        <button type="button" class="btn btn-danger btn-sm"
-                            (click)="deleteDoctor(doctor)">Delete</button>
-                    </td>
+                        <td *ngIf="currentRole === 'ROLE_ADMIN' || (currentRole === 'ROLE_DOCTOR' && userLogin === doctor.name) ">{{doctor.name}}</td>
+                        <td *ngIf="currentRole === 'ROLE_ADMIN' || (currentRole === 'ROLE_DOCTOR' && userLogin === doctor.name) ">{{doctor.specialisation}}</td>
+                        <td *ngIf="currentRole === 'ROLE_ADMIN' || (currentRole === 'ROLE_DOCTOR' && userLogin === doctor.name) ">{{doctor.mobileNo}}</td>
+                        <td *ngIf="currentRole === 'ROLE_ADMIN' || (currentRole === 'ROLE_DOCTOR' && userLogin === doctor.name) ">{{doctor.address}}</td>
+                        <td *ngIf="currentRole === 'ROLE_ADMIN' || (currentRole === 'ROLE_DOCTOR' && userLogin === doctor.name) ">
+                            <button type="button" class="btn btn-warning btn-sm"
+                                (click)="getAllPatientsForADoctor(doctor)">Patients</button>
+                            <button type="button" class="btn btn-dark btn-sm"
+                                (click)="getAllAppointmentsForADoctor(doctor)">Appointments</button>
+                            <button type="button" class="btn btn-info btn-sm"
+                                (click)="getAllTreatmentHistoriesForADoctor(doctor)">Treatment Histories</button>
+                            <button type="button" class="btn btn-secondary btn-sm"
+                                (click)="updateDoctorWithId(doctor)">Update</button>
+                            <button type="button" class="btn btn-danger btn-sm" (click)="deleteDoctor(doctor)"
+                                *ngIf="currentRole === 'ROLE_ADMIN'">Delete</button>
+                        </td>
                 </tr>
             </tbody>
         </table>

@@ -27,6 +27,7 @@ export class AppointmentsComponent implements OnInit {
   updateAppointmentErrorMessage: string = "";
   token!: string;
   currentAppointmentId !: string;
+  currentRole !: string;
 
   isAppointmentDeleteSuccess: boolean = false;
   isUpdateAppointmentFormSubmitted: boolean = false;
@@ -44,6 +45,7 @@ export class AppointmentsComponent implements OnInit {
     this.currentAppointmentId = "";
 
     this.token = this.activatedRoute.snapshot.params['token'];
+    this.currentRole = this.activatedRoute.snapshot.params['role'];
 
     this.isAppointmentDeleteSuccess = false;
     this.isUpdateAppointmentFormSubmitted = false;

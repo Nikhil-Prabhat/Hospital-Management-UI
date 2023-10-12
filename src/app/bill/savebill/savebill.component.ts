@@ -25,11 +25,14 @@ export class SavebillComponent implements OnInit {
 
   isSubmitted: boolean = false;
   isSaveBillSuccess: boolean = false;
+  currentRole !: string;
 
   constructor(private hospitalService: HospitalService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.token = this.activatedRoute.snapshot.params['token'];
+    this.currentRole = this.activatedRoute.snapshot.params['role'];
+
     this.isSubmitted = false;
     this.isSaveBillSuccess = false;
 
@@ -85,7 +88,7 @@ export class SavebillComponent implements OnInit {
   /* Route to Bill Page */
   public routeToBillPage(token: string) {
     setTimeout(() => {
-      this.router.navigate(['/bills', token])
+      this.router.navigate(['/bills', token, this.currentRole])
     }, 2000);
   }
 

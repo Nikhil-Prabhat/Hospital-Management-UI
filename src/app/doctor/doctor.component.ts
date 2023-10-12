@@ -7,6 +7,7 @@ import { TreatmentHistoryResponse } from '../modals/hospital/TreatmentHistoryRes
 import { AppointmentResponse } from '../modals/hospital/AppointmentResponse.modal';
 import { Doctor } from '../modals/hospital/Doctor.modal';
 import { NgForm } from '@angular/forms';
+import { SecurityServiceService } from '../service/security-service.service';
 
 @Component({
   selector: 'app-doctor',
@@ -40,6 +41,8 @@ export class DoctorComponent implements OnInit {
   updateDoctorId !: string;
   deleteDoctorSuccessMessage !: string;
   deleteDoctorErrorMessage !: string;
+  currentRole !: string;
+  userLogin !: string;
 
   isGetAllPatientsForADoctor: boolean = false;
   isGetAllTreatmentHistoriesForADoctor: boolean = false;
@@ -49,7 +52,7 @@ export class DoctorComponent implements OnInit {
   isUpateDoctorFormSubmitted !: boolean;
   isDeleteDoctorSuccess: boolean = false;
 
-  constructor(private hospitalService: HospitalService, private activatedRoute: ActivatedRoute) { }
+  constructor(private securityService: SecurityServiceService, private hospitalService: HospitalService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.getAllDoctorsErrorMessage = "";
@@ -68,8 +71,22 @@ export class DoctorComponent implements OnInit {
     this.isDeleteDoctorSuccess = false;
 
     this.token = this.activatedRoute.snapshot.params['token'];
+    this.currentRole = this.activatedRoute.snapshot.params['role'];
+    this.getCurrentUser();
     this.getAllDoctorsList();
+  }
 
+  /* Find current user */
+  public getCurrentUser() {
+    this.securityService.validate(this.token)
+      .subscribe(
+        tokenValidationResponse => {
+          this.userLogin = tokenValidationResponse.username;
+          console.log(this.userLogin);
+        }, (error: any) => {
+          console.log(JSON.stringify(error));
+        }
+      );
   }
 
   /* Get All Doctor's List */

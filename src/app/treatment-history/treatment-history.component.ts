@@ -34,6 +34,7 @@ export class TreatmentHistoryComponent implements OnInit {
   isUpdateTreatmentHistorySuccess: boolean = false;
   isUpdateTreatmentHistoryFormSubmitted: boolean = false;
   currentTreatmentHistory : string = ""; 
+  currentRole !: string;
 
 
   constructor(private hospitalService: HospitalService, private activatedRoute: ActivatedRoute) { }
@@ -53,6 +54,7 @@ export class TreatmentHistoryComponent implements OnInit {
     this.isUpdateTreatmentHistory = false;
 
     this.token = this.activatedRoute.snapshot.params['token'];
+    this.currentRole = this.activatedRoute.snapshot.params['role'];
     this.getAllTreatmentHistories();
   }
 

@@ -13,6 +13,7 @@ import { TreatmentHistoryComponent } from "./treatment-history/treatment-history
 import { SavetreatmenthistoryComponent } from "./treatment-history/savetreatmenthistory/savetreatmenthistory.component";
 import { BillComponent } from "./bill/bill.component";
 import { SavebillComponent } from "./bill/savebill/savebill.component";
+import { InsuranceComponent } from "./insurance/insurance.component";
 
 const routes: Routes = [
     {
@@ -63,6 +64,12 @@ const routes: Routes = [
     {
         path: 'savebill/:token/:role', component: SavebillComponent
 
+    },
+    {
+        path: 'insurances/:token/:role', component: InsuranceComponent
+    },
+    {
+        path: 'saveinsurance/:token/:role', component: InsuranceComponent
     },
     {
         path: '', redirectTo: 'login', pathMatch: 'full'

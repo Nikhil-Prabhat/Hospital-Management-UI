@@ -1,0 +1,126 @@
+<!-- Navbar -->
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand">Hospital Management</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/doctors/{{token}}/{{currentRole}}"
+                        *ngIf="currentRole === 'ROLE_ADMIN' || currentRole === 'ROLE_DOCTOR'">Doctors</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/patients/{{token}}/{{currentRole}}"
+                        *ngIf="currentRole === 'ROLE_ADMIN' || currentRole === 'ROLE_USER'">Patients</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/appointments/{{token}}/{{currentRole}}"
+                        *ngIf="currentRole === 'ROLE_ADMIN'">Appointments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/treatmenthistories/{{token}}/{{currentRole}}"
+                        *ngIf="currentRole === 'ROLE_ADMIN'">Treatment History</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/bills/{{token}}/{{currentRole}}"
+                        *ngIf="currentRole === 'ROLE_ADMIN'">Bills</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/insurances/{{token}}/{{currentRole}}"
+                        *ngIf="currentRole === 'ROLE_ADMIN'">Insurances</a>
+                </li>
+            </ul>
+        </div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="button" class="btn btn-outline-warning" routerLink="/saveinsurance/{{token}}/{{currentRole}}"
+                *ngIf="currentRole === 'ROLE_ADMIN'">Save
+                Insurance</button>
+            <button type="button" class="btn btn-outline-danger" routerLink="">Log Out</button>
+        </div>
+    </div>
+</nav>
+
+<!-- Get Appointment's List From Database -->
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+        <h1 class="display-6 text-center">Insurer's List</h1>
+
+        <div class="col-md-4">
+            <!-- Page Dropdown -->
+            <label><strong>Show </strong>
+                <select [(ngModel)]="itemLimit" (change)="getAllInsurances()">
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select> <strong> Entries </strong>
+            </label>
+        </div>
+
+        <div class="col-md-8">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <div class="pagination">
+                    <div class="btn-group">
+                        <a class="btn btn-secondary btn-sm noActive" (click)="onPrevious()"> Previous </a>
+                        <a class="btn btn-sm noActive"> {{pageOffset}} </a>
+                        <a class="btn btn-info btn-sm noActive" (click)="onNext()"> Next </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table class="table table-hover table-striped">
+            <thead *ngIf="insuranceList.length > 0">
+                <tr>
+                    <th>Insurer Name</th>
+                    <th>Insurance Type</th>
+                    <th>Origin State</th>
+                    <th>Origin Country</th>
+                    <th>Amount</th>
+                    <th>Disbursement Time (Months)</th>
+                    <th>Operations</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let insurance of insuranceList;">
+                    <td>{{insurance.insurerName}}</td>
+                    <td>{{insurance.insuranceType}}</td>
+                    <td>{{insurance.insurerOriginState}}</td>
+                    <td>{{insurance.insurerOriginCountry}}</td>
+                    <td>{{insurance.insurerAmountLimit}}</td>
+                    <td>{{insurance.disbursementTime}}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary btn-sm">Update</button>
+                        <button type="button" class="btn btn-danger btn-sm"
+                        (click)="deleteInsurance(insurance)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Delete Insurance -->
+    <div class="text-center mt-4 name">
+        <!-- Setting up message -->
+        <div class="alert alert-success "
+            *ngIf="isInsuranceDeleteSuccess && deleteInsuranceSuccessMessage.length > 0">
+            <strong>{{deleteInsuranceSuccessMessage}}</strong>
+        </div>
+
+        <div class="alert alert-danger "
+            *ngIf="!isInsuranceDeleteSuccess && deleteInsuranceErrorMessage.length > 0">
+            <strong>{{deleteInsuranceErrorMessage}}</strong>
+        </div>
+    </div>
+</div>
+
+<!-- If the Appointment's List is Empty -->
+<div class="alert alert-primary text-center" *ngIf="insuranceList.length < 1">
+    <strong>There is no insurances in HM to display </strong>
+</div>
+
+<!-- In case there is any issue fetching appointment's List -->
+<div class="alert alert-danger text-center container-fluid" *ngIf="getAllInsurancesErrorMessage">
+    <strong>{{getAllInsurancesErrorMessage}}</strong>
+</div>

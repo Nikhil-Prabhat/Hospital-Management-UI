@@ -21,6 +21,7 @@ import { MaintainspacePipe } from './pipes/maintainspace.pipe';
 import { SavetreatmenthistoryComponent } from './treatment-history/savetreatmenthistory/savetreatmenthistory.component';
 import { BillComponent } from './bill/bill.component';
 import { SavebillComponent } from './bill/savebill/savebill.component';
+import { InsuranceComponent } from './insurance/insurance.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { SavebillComponent } from './bill/savebill/savebill.component';
     MaintainspacePipe,
     SavetreatmenthistoryComponent,
     BillComponent,
-    SavebillComponent
+    SavebillComponent,
+    InsuranceComponent
   ],
   imports: [
     BrowserModule,

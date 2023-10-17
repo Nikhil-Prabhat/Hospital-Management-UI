@@ -9,6 +9,9 @@ import { DoctorResponse } from '../modals/hospital/DoctorResponse.modal';
 import { NgForm } from '@angular/forms';
 import { Patient } from '../modals/hospital/Patient.modal';
 import { SecurityServiceService } from '../service/security-service.service';
+import { InsuranceResponse } from '../modals/insurance/InsurerResponse.modal';
+import { InsuranceService } from '../service/insurance.service';
+import { PatientClaim } from '../modals/insurance/PatientClaim.modal';
 
 @Component({
   selector: 'app-patient',
@@ -27,6 +30,7 @@ export class PatientComponent implements OnInit {
   DELETE_PATIENT_UNSUCCESSFUL = "Delete Patient Operation Unsuccessful ! " + '\n';
   GET_ALL_DOCTORS_IN_HM_UNSUCCESSFUL = "Get All Doctors in HM Operation Unsuccessful ! ";
   ASSIGN_PATIENT_TO_DOCTOR_UNSUCCESSFUL = "Assign Doctor To Patient Operation Unsuccessful ! " + '\n';
+  GET_ALL_INSURANCES_LIST_UNSUCCESSFUL = "Get All Insurances List Operation Unsuccessful !";
 
   @ViewChild('updatePatientForm') updatePatientForm!: NgForm;
 
@@ -37,6 +41,8 @@ export class PatientComponent implements OnInit {
   doctorListForAPatient: DoctorResponse[] = [];
   currentBillForPatient !: BillResponse;
   getAllDoctorsList: DoctorResponse[] = [];
+  getAllInsurancesList: InsuranceResponse[] = [];
+  currentPatientClaim !: PatientClaim;
 
   token !: string;
   getAllPatientsErrorMessage !: string;
@@ -56,6 +62,7 @@ export class PatientComponent implements OnInit {
   assignDoctorToPatientMessage !: string;
   currentRole !: string;
   userLogin !: string;
+  getAllInsuranceInHMErrorMessage !: string;
 
   isGetBillForAPatient: boolean = false;
   isGetAllAppointmentsForAPatient: boolean = false;
@@ -67,8 +74,8 @@ export class PatientComponent implements OnInit {
   isDeletePatientSuccess: boolean = false;
   isAssignDoctorToPatientSuccess: boolean = false;
 
-
-  constructor(private securityService: SecurityServiceService, private hospitalService: HospitalService, private activatedRoute: ActivatedRoute) { }
+  constructor(private securityService: SecurityServiceService, private hospitalService: HospitalService, private insuranceService: InsuranceService,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.getAllPatientsErrorMessage = "";
@@ -85,7 +92,7 @@ export class PatientComponent implements OnInit {
     this.assignDoctorId = "";
     this.assignPatientId = "";
     this.assignDoctorToPatientMessage = "";
-
+    this.getAllInsuranceInHMErrorMessage = "";
 
     this.isGetBillForAPatient = false;
     this.isGetAllAppointmentsForAPatient = false;
@@ -99,7 +106,7 @@ export class PatientComponent implements OnInit {
 
     this.token = this.activatedRoute.snapshot.params['token'];
     this.currentRole = this.activatedRoute.snapshot.params['role'];
-    
+
     this.getCurrentUser();
     this.getAllPatientsList();
   }
@@ -315,6 +322,30 @@ export class PatientComponent implements OnInit {
         this.assignDoctorToPatientMessage = "";
       }, 2000
     );
+  }
+
+  /* Get All Insurance List */
+  public getAllInsuranceListForPatientMapping(billResponse: BillResponse) {
+    this.currentPatientClaim = new PatientClaim(billResponse.patient.id, billResponse.totalAmountOfBill,0);
+    this.insuranceService.getAllInsurances(this.token, 0, 1000)
+      .subscribe(
+        (insuranceResponseList: InsuranceResponse[]) => {
+          for (var insurance of insuranceResponseList) {
+            this.getAllInsurancesList.push(insurance);
+          }
+        }, (error: any) => {
+          this.getAllInsurancesList = [];
+          this.getAllInsuranceInHMErrorMessage = this.GET_ALL_INSURANCES_LIST_UNSUCCESSFUL + JSON.stringify(error.error);
+        }
+      )
+  }
+
+  /* Assign Insurance To Patient */
+  public assignInsuranceToPatient(insurance : InsuranceResponse) {
+      this.currentPatientClaim.setInsurance(insurance);
+      console.log(JSON.stringify(this.currentPatientClaim));
+
+      // forward this to next page with patient claim details
   }
 
 }

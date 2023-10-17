@@ -34,9 +34,6 @@
             </ul>
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button type="button" class="btn btn-outline-warning" routerLink="/saveinsurance/{{token}}/{{currentRole}}"
-                *ngIf="currentRole === 'ROLE_ADMIN'">Save
-                Insurance</button>
             <button type="button" class="btn btn-outline-danger" routerLink="">Log Out</button>
         </div>
     </div>
@@ -91,7 +88,6 @@
                     <td>{{insurance.insurerAmountLimit}}</td>
                     <td>{{insurance.disbursementTime}}</td>
                     <td>
-                        <button type="button" class="btn btn-primary btn-sm">Update</button>
                         <button type="button" class="btn btn-danger btn-sm"
                         (click)="deleteInsurance(insurance)">Delete</button>
                     </td>

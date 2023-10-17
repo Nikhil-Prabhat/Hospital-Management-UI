@@ -69,9 +69,6 @@ const routes: Routes = [
         path: 'insurances/:token/:role', component: InsuranceComponent
     },
     {
-        path: 'saveinsurance/:token/:role', component: InsuranceComponent
-    },
-    {
         path: '', redirectTo: 'login', pathMatch: 'full'
 
     }

@@ -29,6 +29,7 @@ export class HospitalService {
 
   /* Patient's Endpoint urls */
   GET_ALL_PATIENTS = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/getallpatients";
+  GET_PATIENT_BY_ID = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/getpatientbyid/";
   SAVE_PATIENT = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/savepatients";
   GET_BILL_FOR_A_PATIENT = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/getbillbypatientid/";
   GET_APPOINTMENTS_FOR_A_PATIENT = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/getallappointmentsforapatient/";
@@ -114,6 +115,12 @@ export class HospitalService {
   public getAllPatients(token: string) {
     const headers = this.getHeaders(token);
     return this.httpClient.get<PatientResponse[]>(this.GET_ALL_PATIENTS, { headers });
+  }
+
+  /* Get Patient By Id */
+  public getPatientById(token : string, id : string) {
+    const headers = this.getHeaders(token);
+    return this.httpClient.get<PatientResponse>(this.GET_PATIENT_BY_ID + id, {headers});
   }
 
   /* Save Patient */

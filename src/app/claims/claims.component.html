@@ -46,81 +46,57 @@
 <!-- Get Appointment's List From Database -->
 <div class="container">
     <div class="row justify-content-center align-items-center">
-        <h1 class="display-6 text-center">Insurer's List</h1>
-
-        <div class="col-md-4">
-            <!-- Page Dropdown -->
-            <label><strong>Show </strong>
-                <select [(ngModel)]="itemLimit" (change)="getAllInsurances()">
-                    <option value="5">5</option>
-                    <option value="10" selected>10</option>
-                    <option value="15">15</option>
-                    <option value="20">20</option>
-                </select> <strong> Entries </strong>
-            </label>
-        </div>
-
-        <div class="col-md-8">
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <div class="pagination">
-                    <div class="btn-group">
-                        <a class="btn btn-secondary btn-sm noActive" (click)="onPrevious()"> Previous </a>
-                        <a class="btn btn-sm noActive"> {{pageOffset}} </a>
-                        <a class="btn btn-info btn-sm noActive" (click)="onNext()"> Next </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <h1 class="display-6 text-center" *ngIf="patientResponseUIList.length > 0">Claims's List</h1>
         <table class="table table-hover table-striped">
-            <thead *ngIf="insuranceList.length > 0">
+            <thead *ngIf="patientResponseUIList.length > 0">
                 <tr>
-                    <th>Insurer Name</th>
-                    <th>Insurance Type</th>
-                    <th>Origin State</th>
-                    <th>Origin Country</th>
-                    <th>Amount</th>
-                    <th>Disbursement Time (Months)</th>
+                    <th>Patient Name</th>
+                    <th>Patient Mobile No</th>
+                    <th>Insurance Name</th>
+                    <th>Insurance Amount </th>
+                    <th>Amount Spent</th>
+                    <th>Remaining Amount</th>
                     <th>Operations</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let insurance of insuranceList;">
-                    <td>{{insurance.insurerName}}</td>
-                    <td>{{insurance.insuranceType}}</td>
-                    <td>{{insurance.insurerOriginState}}</td>
-                    <td>{{insurance.insurerOriginCountry}}</td>
-                    <td>{{insurance.insurerAmountLimit}}</td>
-                    <td>{{insurance.disbursementTime}}</td>
+                <tr *ngFor="let patientResponseUI of patientResponseUIList;">
+                    <td>{{patientResponseUI.patientName}}</td>
+                    <td>{{patientResponseUI.patientMobileNo}}</td>
+                    <td>{{patientResponseUI.patientClaimResponse.insuranceTaken.insurerName}}</td>
+                    <td>{{patientResponseUI.patientClaimResponse.insuranceTaken.insurerAmountLimit}}</td>
+                    <td>{{patientResponseUI.patientClaimResponse.amountSpent}}</td>
+                    <td>{{patientResponseUI.patientClaimResponse.remainingAmount}}</td>
                     <td>
                         <button type="button" class="btn btn-danger btn-sm"
-                        (click)="deleteInsurance(insurance)">Delete</button>
+                        (click)="deletePatientClaimById(patientResponseUI)">Delete</button>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <!-- Delete Insurance -->
-    <div class="text-center mt-4 name">
+     <!-- Delete Claims -->
+     <div class="text-center mt-4 name">
         <!-- Setting up message -->
         <div class="alert alert-success "
-            *ngIf="isInsuranceDeleteSuccess && deleteInsuranceSuccessMessage.length > 0">
-            <strong>{{deleteInsuranceSuccessMessage}}</strong>
+            *ngIf="isDeleteClaimSuccess && deleteClaimSuccessMessage.length > 0">
+            <strong>{{deleteClaimSuccessMessage}}</strong>
         </div>
 
         <div class="alert alert-danger "
-            *ngIf="!isInsuranceDeleteSuccess && deleteInsuranceErrorMessage.length > 0">
-            <strong>{{deleteInsuranceErrorMessage}}</strong>
+            *ngIf="!isDeleteClaimSuccess && deleteClaimErrorMessage.length > 0">
+            <strong>{{deleteClaimErrorMessage}}</strong>
         </div>
     </div>
 </div>
 
-<!-- If the Appointment's List is Empty -->
-<div class="alert alert-primary text-center" *ngIf="insuranceList.length < 1">
-    <strong>There is no insurances in HM to display </strong>
+<!-- If the Claims's List is Empty -->
+<div class="alert alert-primary text-center" *ngIf="patientResponseUIList.length < 1">
+    <strong>There is no claim in HM to display </strong>
 </div>
 
 <!-- In case there is any issue fetching appointment's List -->
-<div class="alert alert-danger text-center container-fluid" *ngIf="getAllInsurancesErrorMessage">
-    <strong>{{getAllInsurancesErrorMessage}}</strong>
+<div class="alert alert-danger text-center container-fluid" *ngIf="getAllPatientClaimErrorMessage">
+    <strong>{{getAllPatientClaimErrorMessage}}</strong>
 </div>

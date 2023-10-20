@@ -22,6 +22,8 @@ import { SavetreatmenthistoryComponent } from './treatment-history/savetreatment
 import { BillComponent } from './bill/bill.component';
 import { SavebillComponent } from './bill/savebill/savebill.component';
 import { InsuranceComponent } from './insurance/insurance.component';
+import { BillprocessComponent } from './billprocess/billprocess.component';
+import { ClaimsComponent } from './claims/claims.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { InsuranceComponent } from './insurance/insurance.component';
     SavetreatmenthistoryComponent,
     BillComponent,
     SavebillComponent,
-    InsuranceComponent
+    InsuranceComponent,
+    BillprocessComponent,
+    ClaimsComponent
   ],
   imports: [
     BrowserModule,

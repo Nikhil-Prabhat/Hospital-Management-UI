@@ -31,6 +31,10 @@
                     <a class="nav-link" routerLink="/insurances/{{token}}/{{currentRole}}"
                         *ngIf="currentRole === 'ROLE_ADMIN'">Insurances</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/claims/{{token}}/{{currentRole}}"
+                        *ngIf="currentRole === 'ROLE_ADMIN'">Claims</a>
+                </li>
             </ul>
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -59,12 +63,23 @@
             </thead>
             <tbody>
                 <tr *ngFor="let patient of patientsList;">
-                    <td *ngIf="currentRole === 'ROLE_ADMIN' || (currentRole === 'ROLE_USER' && userLogin === patient.name) ">{{patient.name}}</td>
-                    <td *ngIf="currentRole === 'ROLE_ADMIN' || (currentRole === 'ROLE_USER' && userLogin === patient.name) ">{{patient.mobileNo}}</td>
-                    <td *ngIf="currentRole === 'ROLE_ADMIN' || (currentRole === 'ROLE_USER' && userLogin === patient.name) ">{{patient.address}}</td>
-                    <td *ngIf="currentRole === 'ROLE_ADMIN' || (currentRole === 'ROLE_USER' && userLogin === patient.name) ">{{patient.briefProblemDescription}}</td>
-                    <td *ngIf="currentRole === 'ROLE_ADMIN' || (currentRole === 'ROLE_USER' && userLogin === patient.name) ">{{patient.treatmentStatus}}</td>
-                    <td *ngIf="currentRole === 'ROLE_ADMIN' || (currentRole === 'ROLE_USER' && userLogin === patient.name) ">
+                    <td
+                        *ngIf="currentRole === 'ROLE_ADMIN' || (currentRole === 'ROLE_USER' && userLogin === patient.name) ">
+                        {{patient.name}}</td>
+                    <td
+                        *ngIf="currentRole === 'ROLE_ADMIN' || (currentRole === 'ROLE_USER' && userLogin === patient.name) ">
+                        {{patient.mobileNo}}</td>
+                    <td
+                        *ngIf="currentRole === 'ROLE_ADMIN' || (currentRole === 'ROLE_USER' && userLogin === patient.name) ">
+                        {{patient.address}}</td>
+                    <td
+                        *ngIf="currentRole === 'ROLE_ADMIN' || (currentRole === 'ROLE_USER' && userLogin === patient.name) ">
+                        {{patient.briefProblemDescription}}</td>
+                    <td
+                        *ngIf="currentRole === 'ROLE_ADMIN' || (currentRole === 'ROLE_USER' && userLogin === patient.name) ">
+                        {{patient.treatmentStatus}}</td>
+                    <td
+                        *ngIf="currentRole === 'ROLE_ADMIN' || (currentRole === 'ROLE_USER' && userLogin === patient.name) ">
                         <button type="button" class="btn btn-success btn-sm"
                             (click)="getAllDoctorsForAPatient(patient)">Doctor</button>
                         <button type="button" class="btn btn-warning btn-sm"
@@ -73,11 +88,9 @@
                             (click)="getAppointmentsForAPatient(patient)">Appointments</button>
                         <button type="button" class="btn btn-info btn-sm"
                             (click)="getTreatmentHistoriesForAPatient(patient)">Treatment Histories</button>
-                        <button type="button" class="btn btn-secondary btn-sm"
-                            (click)="updatePatientWithId(patient)"
+                        <button type="button" class="btn btn-secondary btn-sm" (click)="updatePatientWithId(patient)"
                             *ngIf="currentRole === 'ROLE_ADMIN'">Update</button>
-                        <button type="button" class="btn btn-danger btn-sm"
-                            (click)="deletePatient(patient)"
+                        <button type="button" class="btn btn-danger btn-sm" (click)="deletePatient(patient)"
                             *ngIf="currentRole === 'ROLE_ADMIN'">Delete</button>
                         <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
                             data-bs-target="#assigndoctortopatient"
@@ -219,12 +232,74 @@
                 {{currentBillForPatient.hospitalizationFee}}</label>
             <label class="col-form-label bold">Total Amount Of Bill : INR
                 {{currentBillForPatient.totalAmountOfBill}}</label>
+            <label>
+                <button type="button" class="btn btn-outline-info" data-bs-toggle="modal"
+                    data-bs-target="#assigninsurancetopatient"
+                    (click)="getAllInsuranceListForPatientMapping(currentBillForPatient)">
+                    <strong>Process Bill</strong>
+                </button>
+            </label>
         </div>
     </div>
 
     <!-- CASE : When no bill to display -->
     <div class="alert alert-primary text-center" *ngIf="billListForPatient.length < 1 && isGetBillForAPatient">
         <strong>There is no bill currently in HM for patient : {{currentPatientName}} </strong>
+    </div>
+
+    <!-- The Modal -->
+    <div class="modal" id="assigninsurancetopatient">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title display-5 text-secondary">Choose Insurance</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="alert alert-danger text-center container-fluid" *ngIf="getAllInsuranceInHMErrorMessage">
+                        {{getAllInsuranceInHMErrorMessage}}
+                    </div>
+
+                    <div class="row justify-content-center align-items-center">
+                        <table class="table table-hover table-striped">
+                            <thead *ngIf="getAllInsurancesList.length > 0">
+                                <tr>
+                                    <th>Insurer Name</th>
+                                    <th>Insurer Amount</th>
+                                    <th>Disbursement Time (Months)</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let insurance of getAllInsurancesList;">
+                                    <td>{{insurance.insurerName}}</td>
+                                    <td>{{insurance.insurerAmountLimit}}</td>
+                                    <td>{{insurance.disbursementTime}}</td>
+                                    <td><button type="button" class="btn btn-outline-success btn-sm"
+                                        (click)="assignInsuranceToPatient(insurance)">Opt</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- CASE : When no insurance to display -->
+                    <div class="alert alert-primary text-center" *ngIf="getAllInsurancesList.length < 1 ">
+                        <strong>There is no insurance in HM for the patient to opt </strong>
+                    </div>
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
     </div>
 
     <!-- Get All Appointments For A Patient -->

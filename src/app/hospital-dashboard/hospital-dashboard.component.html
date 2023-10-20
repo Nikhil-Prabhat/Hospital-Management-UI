@@ -31,6 +31,10 @@
                     <a class="nav-link" routerLink="/insurances/{{token}}/{{currentRole}}"
                         *ngIf="currentRole === 'ROLE_ADMIN'">Insurances</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/claims/{{token}}/{{currentRole}}"
+                        *ngIf="currentRole === 'ROLE_ADMIN'">Claims</a>
+                </li>
             </ul>
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -38,12 +42,18 @@
         </div>
     </div>
 </nav>
+<div class="container-fluid text-center card" style="width:400px">
+    <img class="card-img-bottom" src="/assets/user.png" alt="Card image" style="width:150px">
+    <div class="card-body">
+        <h4 class="card-title">User Name : {{currentUser}}</h4>
+        <p class="card-text">Role : {{currentRole}}</p>
+      </div>
+</div>
 
-<div class="container-fluid text-center">
-    <h1 class="display-1 text-danger">Welcome {{currentUser}}</h1>
-
-    <div class="alert alert-success alert-dismissible">
+<div class="container-fluid text-center" *ngIf="currentRole === 'ROLE_ADMIN'">
+    <div class="alert alert-success alert-dismissible" >
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         <strong>Note Admin !</strong> Before Deleting Any Doctor or Patient, plz delete all other left over details regarding entity.
     </div>
 </div>
+

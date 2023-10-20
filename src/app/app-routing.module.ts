@@ -14,6 +14,8 @@ import { SavetreatmenthistoryComponent } from "./treatment-history/savetreatment
 import { BillComponent } from "./bill/bill.component";
 import { SavebillComponent } from "./bill/savebill/savebill.component";
 import { InsuranceComponent } from "./insurance/insurance.component";
+import { BillprocessComponent } from "./billprocess/billprocess.component";
+import { ClaimsComponent } from "./claims/claims.component";
 
 const routes: Routes = [
     {
@@ -67,6 +69,12 @@ const routes: Routes = [
     },
     {
         path: 'insurances/:token/:role', component: InsuranceComponent
+    },
+    {
+        path: 'billprocess/:token/:role/:patientId/:insuranceId', component: BillprocessComponent
+    },
+    {
+        path: 'claims/:token/:role', component: ClaimsComponent
     },
     {
         path: '', redirectTo: 'login', pathMatch: 'full'

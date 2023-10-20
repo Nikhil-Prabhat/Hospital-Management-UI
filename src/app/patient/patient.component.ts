@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HospitalService } from '../service/hospital.service';
 import { PatientResponse } from '../modals/hospital/PatientResponse.modal';
 import { BillResponse } from '../modals/hospital/BillResponse.modal';
@@ -42,7 +42,6 @@ export class PatientComponent implements OnInit {
   currentBillForPatient !: BillResponse;
   getAllDoctorsList: DoctorResponse[] = [];
   getAllInsurancesList: InsuranceResponse[] = [];
-  currentPatientClaim !: PatientClaim;
 
   token !: string;
   getAllPatientsErrorMessage !: string;
@@ -63,6 +62,7 @@ export class PatientComponent implements OnInit {
   currentRole !: string;
   userLogin !: string;
   getAllInsuranceInHMErrorMessage !: string;
+  insurancePatientId !: string;
 
   isGetBillForAPatient: boolean = false;
   isGetAllAppointmentsForAPatient: boolean = false;
@@ -75,7 +75,7 @@ export class PatientComponent implements OnInit {
   isAssignDoctorToPatientSuccess: boolean = false;
 
   constructor(private securityService: SecurityServiceService, private hospitalService: HospitalService, private insuranceService: InsuranceService,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute, private router : Router) { }
 
   ngOnInit(): void {
     this.getAllPatientsErrorMessage = "";
@@ -93,6 +93,7 @@ export class PatientComponent implements OnInit {
     this.assignPatientId = "";
     this.assignDoctorToPatientMessage = "";
     this.getAllInsuranceInHMErrorMessage = "";
+    this.insurancePatientId = "";
 
     this.isGetBillForAPatient = false;
     this.isGetAllAppointmentsForAPatient = false;
@@ -326,7 +327,7 @@ export class PatientComponent implements OnInit {
 
   /* Get All Insurance List */
   public getAllInsuranceListForPatientMapping(billResponse: BillResponse) {
-    this.currentPatientClaim = new PatientClaim(billResponse.patient.id, billResponse.totalAmountOfBill,0);
+    this.insurancePatientId = billResponse.patient.id;
     this.insuranceService.getAllInsurances(this.token, 0, 1000)
       .subscribe(
         (insuranceResponseList: InsuranceResponse[]) => {
@@ -342,10 +343,9 @@ export class PatientComponent implements OnInit {
 
   /* Assign Insurance To Patient */
   public assignInsuranceToPatient(insurance : InsuranceResponse) {
-      this.currentPatientClaim.setInsurance(insurance);
-      console.log(JSON.stringify(this.currentPatientClaim));
-
       // forward this to next page with patient claim details
+      this.router.navigate(['/billprocess', this.token, this.currentRole, this.insurancePatientId,insurance.id]);
+     
   }
 
 }

@@ -31,6 +31,10 @@
                     <a class="nav-link" routerLink="/insurances/{{token}}/{{currentRole}}"
                         *ngIf="currentRole === 'ROLE_ADMIN'">Insurances</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/claims/{{token}}/{{currentRole}}"
+                        *ngIf="currentRole === 'ROLE_ADMIN'">Claims</a>
+                </li>
             </ul>
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -282,18 +286,7 @@
                         </table>
                     </div>
 
-                    <!-- Setting up message -->
-                    <!-- <div class="alert alert-success "
-                        *ngIf="isAssignDoctorToPatientSuccess && assignDoctorToPatientMessage.length > 0">
-                        <strong>{{assignDoctorToPatientMessage}}</strong>
-                    </div>
-
-                    <div class="alert alert-danger "
-                        *ngIf="!isAssignDoctorToPatientSuccess && assignDoctorToPatientMessage.length > 0">
-                        <strong>{{assignDoctorToPatientMessage}}</strong>
-                    </div> -->
-
-                    <!-- CASE : When no doctor to display -->
+                    <!-- CASE : When no insurance to display -->
                     <div class="alert alert-primary text-center" *ngIf="getAllInsurancesList.length < 1 ">
                         <strong>There is no insurance in HM for the patient to opt </strong>
                     </div>

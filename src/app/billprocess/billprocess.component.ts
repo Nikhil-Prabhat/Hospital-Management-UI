@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InsuranceService } from '../service/insurance.service';
-import { PatientClaim } from '../modals/insurance/PatientClaim.modal';
 import { PatientResponse } from '../modals/hospital/PatientResponse.modal';
 import { TreatmentHistoryResponse } from '../modals/hospital/TreatmentHistoryResponse.modal';
 import { BillResponse } from '../modals/hospital/BillResponse.modal';
 import { InsuranceResponse } from '../modals/insurance/InsurerResponse.modal';
+
+declare var Razorpay: any;
 
 @Component({
   selector: 'app-billprocess',
@@ -21,7 +22,7 @@ export class BillprocessComponent implements OnInit {
   GET_REMAINING_AMOUNT_TO_PAY_UNSUCCESSFUL = "Get Remaining Amount To Pay Operation Unsuccessful !";;
 
   patientResponse !: PatientResponse;
-  treatmentHistoryList : TreatmentHistoryResponse[] = [];
+  treatmentHistoryList: TreatmentHistoryResponse[] = [];
   billResponse !: BillResponse;
   insuranceResponse !: InsuranceResponse;
 
@@ -90,13 +91,13 @@ export class BillprocessComponent implements OnInit {
           for (var treatmentHistory of treatmentResponseList) {
             this.treatmentHistoryList.push(treatmentHistory);
           }
-          console.log( "treatment list " + JSON.stringify(this.treatmentHistoryList));
+          console.log("treatment list " + JSON.stringify(this.treatmentHistoryList));
         }, (error: any) => {
           this.getTreatmentHistoryByPatientIdErrorMessage = this.GET_TREATMENT_HISTORIES_BY_PATIENT_ID_UNSUCCESSFUL;
         }
       );
 
-      
+
   }
 
   /* Get Bill By Patient Id */
@@ -123,4 +124,42 @@ export class BillprocessComponent implements OnInit {
       }
   }
 
+  /* Payment Configuration */
+  payNow() {
+
+    if (this.remainingAmount >= 1) {
+      const RozarpayOptions = {
+        description: 'Hospital Management Payment',
+        currency: 'INR',
+        amount: this.remainingAmount * 100,
+        name: 'Nikhil Prabhat',
+        key: 'rzp_test_o11P5PPp2ae92x',
+        image: '/assets/payment.png',
+        theme: {
+          color: '#6466e3'
+        },
+        modal: {
+          ondismiss: () => {
+            console.log('Dismissed')
+          }
+        }
+      }
+
+      const successCallback = (paymentId: any) => {
+        console.log(paymentId);
+      }
+
+      const failureCallback = (e: any) => {
+        console.log(e);
+      }
+
+      Razorpay.open(RozarpayOptions, successCallback, failureCallback);
+    }
+    else {
+      alert('Payment not possible for amount less than 1 Rupee');
+    }
+
+
+  }
 }
+

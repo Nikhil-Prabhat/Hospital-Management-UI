@@ -12,7 +12,7 @@ import { PatientClaimResponse } from '../modals/insurance/PatientClaimResponse.m
 })
 export class InsuranceService {
 
-  INSURANCE_SERVICE_ENDPOINT = "http://localhost:9092/";
+  INSURANCE_SERVICE_ENDPOINT = "http://Insurance-Service-API.ap-south-1.elasticbeanstalk.com:9092/";
 
   /* Insurance Endpoints urls */
   GET_ALL_INSURER_DETAILS = this.INSURANCE_SERVICE_ENDPOINT + "insuranceapp/findallinsurerdetails?pageOffset=";

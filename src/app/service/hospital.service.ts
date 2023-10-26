@@ -16,7 +16,7 @@ import { Bill } from '../modals/hospital/Bills.modal';
 })
 export class HospitalService {
 
-  HOSPITAL_SERVICE_ENDPOINT = "http://localhost:9091/";
+  HOSPITAL_SERVICE_ENDPOINT = "http://HM-hospital-service.ap-south-1.elasticbeanstalk.com:9091/";
 
   /* Doctor's Endpoint urls*/
   SAVE_DOCTOR = this.HOSPITAL_SERVICE_ENDPOINT + "hospitalapp/savedoctors";

@@ -10,7 +10,7 @@ import { HospitalUser } from '../modals/security/HospitalUser.modal';
 })
 export class SecurityServiceService {
 
-  SECURITY_SERVICE_ENDPOINT = "http://localhost:9090/";
+  SECURITY_SERVICE_ENDPOINT = "http://HM-Security-Service-API.ap-south-1.elasticbeanstalk.com:9090/";
   SAVE_USER = this.SECURITY_SERVICE_ENDPOINT + "authapp/saveuser";
   TOKEN_GENERATE = this.SECURITY_SERVICE_ENDPOINT + "authapp/login";
   TOKEN_VALIDATE = this.SECURITY_SERVICE_ENDPOINT + "authapp/validate";
